@@ -5,7 +5,6 @@
 \newcommand{\ffi}{\Leftrightarrow}
 \newcommand{\imply}{\Rightarrow}
 
-
 \usepackage[french]{babel}
 \usepackage{listings, hyperref}
 \usepackage{fancyhdr, fancybox}
@@ -15,6 +14,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{setspace}
 \usepackage{listingsutf8}
+\usepackage{verbatim}
 \pagestyle{fancy}
 
 \definecolor{codecomments}{HTML}{FFA700}
@@ -98,7 +98,7 @@
 \cfoot[]{}
 
 \newcommand{\connect}[1]{
-  \lstinputlisting[language=Lisp, linerange={#1}]{Connect4/ztest.lisp}
+  \lstinputlisting[language=Lisp, linerange={#1}]{Connect4/connect4-game.lisp}
 }
 
 \newcommand{\pather}[1]{
@@ -114,7 +114,7 @@
 \newcolumntype{M}[ 1 ]{>{\centering\arraybackslash}m{#1}}
 
 \title{IA Pas de Soucis !}
-\author{Un projet de Evrard Maurice,\\ Lejeune Grégory,\\ Lejeune Lucas \\ Mathieu Louca,\\ Pluvinage Victor\\ et de Ralet Vincent.}
+\author{Un projet de Evrard Maurice,\\ Lejeune Grégory,\\ Lejeune Lucas \\ et de Mathieu Louca.}
 
 \begin{document}
 \onehalfspacing
@@ -122,31 +122,20 @@
 \newpage
 \tableofcontents
 \newpage
-``Copier, puis coller''
-\begin{flushright}
-  -- \underline{\bf Ralet, Vincent}
-\end{flushright}
-  ``Une couche de neurones d’entrées, plusieurs couches cachées, une couche de sortie suivie d’une fonction d’activation.''
-\begin{flushright}
-  -- \underline{{\bf Ralet, Vincent (aussi)}}
-\end{flushright}
-``J'ai perdu la passion''
-\begin{flushright}
-  -- \underline{{\bf Ralet, Vincent}}
-\end{flushright}
-``Les instructions étaient pas claires''
-\begin{flushright}
-  -- \underline{{\bf Pluvinage, Victor}}
-\end{flushright}
 \section{Introduction.}
-Ce projet a été créé dans le cadre du cours de PESU maths, ce projet a pour objectif de présenter les différentes méthodes utilisées dans la création d'intelligences artificielles au cours des dernières décennies.\\
+Ce projet a été créé dans le cadre du cours de PESU maths, par des élèves de la classe de 6F, et a pour objectif de présenter les différentes méthodes utilisées dans la création d'intelligences artificielles au cours de ces dernières décennies. Il ne s'agit pas ici de présenter brièvement plusieurs langages de programmation, mais bien de montrer au lecteur l'évolution de l'IA au cours du temps en utilisant les différents langages comme les outils aidant à la conception de petits programmes simples.\\
 
-Notre travail se sépare en différentes parties, nous abordons d'abord l'aspect historique, ensuite une partie logique dans laquelle nous parlerons de tables de vérités, d'arbres de preuves, et du langage PROLOG.\\
+Notre travail se sépare en différentes parties, nous abordons d'abord l'aspect historique, ensuite une partie logique dans laquelle nous parlerons de tables de vérité, d'arbres de preuves, et du langage PROLOG.\\
 
 La suite se compose de la partie algorithmique, qui abordera les thèmes de la récursion, de la complexité ainsi que de la notation de Landau, les exemples fournis dans cette partie seront écrits en Common Lisp.\\
 
 Pour finir, nous expliquerons le fonctionnement du machine learning, nous définirons également la Data-Science et illustrerons son utilité via quelques utilisations de cette science dans la vie courante,
 nous donnerons également des exemples d'utilisation du langage Python, et présenterons les bibliothèques Numpy et Keras.\\
+
+Tout les programmes créés dans ce projet sont disponible à l'adresse suivante: \begin{center}
+  https://github.com/Egocentered/MathProject
+\end{center}
+
 \newpage
 \section{Histoire.}
 \subsection{Origines.}
@@ -161,7 +150,7 @@ Les premiers ordinateurs modernes feront leur apparition durant la seconde guerr
 \begin{enumerate}
   \item En 1949, Warren Weaver met au point un protocole qui vise à utiliser l'intelligence artificielle pour traduire automatiquement différents langages.
   \item En 1950, Alan Turing publie un article dans lequel il imaginera le célèbre \textit{Test de Turing} qui vise à définir ce qui est ou non une machine intelligente. Pour se faire, la machine doit pouvoir converser avec un humain sans que ce dernier se rende compte de sa vraie nature. Il sera réussi pour la première fois dans les années 60 par ELIZA, une IA simulant un psychothérapeute. Elle se contentait en réalité de reformuler les affirmations du``patient'' en questions.
-  \item En 1955, Allen Newell accompagné de Herbert Simon de de Cliff Shaw crée le \textit{Théoricien logique}, un programme capable de démontrer 38 des 52 premiers théorèmes des \textit{Principia Mathematica} de Russell et Whitehead, et a même trouvé des démonstrations inédites et élégantes.
+  \item En 1955, Allen Newell accompagné de Herbert Simon de Cliff Shaw crée le \textit{Théoricien logique}, un programme capable de démontrer 38 des 52 premiers théorèmes des \textit{Principia Mathematica} de Russell et Whitehead, et a même trouvé des démonstrations inédites et élégantes.
 \end{enumerate}
 \subsection{Officialisation.}
 En 1956 la conférence de Dartmouth réunit tous les plus grands scientifiques travaillant alors sur le sujet de l'intelligence artificielle. Elle est le vrai point de départ de l'intelligence artificielle moderne étant donné que c'est à ce moment qu'elle a défini ses objectifs et qu'elle devient officiellement une discipline scientifique.
@@ -183,7 +172,7 @@ Cette période marquera tout de même l'apparition d'une nouvelle approche de l'
 \subsection{Depuis 1993.}
 Grâce à un niveau technologique et donc une puissance de calcul qui augmente de manière exponentielle (c.f. Loi de Moore), de nombreux objectifs de l'IA sont atteints. Les investissements n'affluent toujours pas, car on ne s'est pas encore approché du tout du rêve des années 60, c'est-à-dire une IA aussi intelligente qu'un humain.\\
 
-Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits, on peut noter la victoire historique de l'IA Deep Blue aux échecs contre le champion du monde en titre d'échecs Garry Kasparov. On peut aussi parler des nombreux robots anthropomorphes comme le Asimo de Honda ou les robots militaires de Boston Dynamics dont les capacités ne cessent d'impressionner le grand public. Mais au delà de ces prouesses, l'intelligence artificielle a aujourd'hui surtout gagné une place proéminente dans notre quotidien: applis de traduction, publicités ciblées, GPS, recommandations d'amis sur les réseaux sociaux, ... .
+Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits, on peut noter la victoire historique de l'IA Deep Blue aux échecs contre le champion du monde en titre d'échecs Garry Kasparov. On peut aussi parler des nombreux robots anthropomorphes comme le Asimo de Honda ou les robots militaires de Boston Dynamics dont les capacités ne cessent d'impressionner le grand public. Mais au-delà de ces prouesses, l'intelligence artificielle a aujourd'hui surtout gagné une place proéminente dans notre quotidien: applis de traduction, publicités ciblées, GPS, recommandations d'amis sur les réseaux sociaux, ... .
 \newpage
 \section{L'Approche Logique.}
 \subsection{Les bases de la logique}
@@ -244,7 +233,7 @@ Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits,
     Après tant d'exemples ``instructifs'', il serait temps de passer aux fameuses {\bf tables de vérité}, ces tables seront d'une importance capitale lors de résolutions de problèmes, les voici donc:
     \begin{table}[H]
       \hspace{1.0cm}
-      \begin{minipage}[c]{0.1\linewidth}
+      \begin{minipage}[c]{0.15\linewidth}
         \centering
         \caption{Négation.}
         \label{neg_table}
@@ -312,7 +301,7 @@ Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits,
       \end{tabular}
     \end{minipage}
     \hspace{1.0cm}
-    \begin{minipage}[c]{0.1\linewidth}
+    \begin{minipage}[c]{0.15\linewidth}
       \centering
       \caption{Équivalence.}
       \label{iff_table}
@@ -331,13 +320,13 @@ Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits,
 
   Pour ce qui est de la table 6, il faut savoir que certains notent $\ffi$ comme étant $\equiv$, cette notation a l'avantage d'accentuer le fait que cette relation n'est autre que la relation d'équivalence.
   \subsubsection{Résolution de problèmes en logique propositionnelle.}
-  Maintenant que nous avons acquis les bases de la logique propositionnelle,  attaquons nous à quelques problèmes.\\
+  Maintenant que nous avons acquis les bases de la logique propositionnelle,  attaquons-nous à quelques problèmes.\\
 
   En voici un premier,
   \begin{center}
     \Ovalbox{$ \neg (A \land B ) \ffi \neg A \lor \neg B$}
   \end{center}
-  Pour cela nous utiliser une grande table de vérité.
+  Pour cela, nous utiliserons une grande table de vérité.
   \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|c|c|c|c|c|}
@@ -400,7 +389,7 @@ Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits,
 \end{center}
 Chaque branche de l'arbre fini bien par $\bot$, nous venons donc de prouver la loi de DeMorgan, avec l'aide de notre arbre de démonstration. \\
 
-    Ci dessous, le lecteur pourra s'essayer à la démonstration de certaines lois logiques célèbres, avec l'aide d'un tableau ou avec un arbre. \\[1.0cm]
+    Ci-dessous, le lecteur pourra s'essayer à la démonstration de certaines lois logiques célèbres, avec l'aide d'un tableau ou avec un arbre. \\[1.0cm]
   \begin{equation}\neg \neg A \ffi A \end{equation}
   \begin{equation} A \land \neg A \ffi F \end{equation}
   \begin{equation} A \lor \neg A \ffi T \end{equation}
@@ -426,7 +415,7 @@ Chaque branche de l'arbre fini bien par $\bot$, nous venons donc de prouver la l
   \begin{itemize}
   \item {\bf consistantes}, signifiant qu'il est possible d'en tirer du Vrai, par exemple $A \land B$ ou encore $\neg \neg A \imply A$.
   \item {\bf inconsistances}, signifiant que l'on ne peut en tirer que du Faux, par exemple $A \land \neg A$, ces formules peuvent être notées $\bot$.
-  \item {\bf valides}, signifiant qu'elles ne peuvent être que Vraies, comme $A \lor \neg A$ (principe du tiers exclus), une formule {\bf valide} est par définition toujours {\bf consistante}, on appelle bien souvent ces formules valides des {\bf tautologies}, ces formules pourront être notées $\top$. \\
+  \item {\bf valides}, signifiant qu'elles ne peuvent être que Vraies, comme $A \lor \neg A$ (principe du tiers exclu), une formule {\bf valide} est par définition toujours {\bf consistante}, on appelle bien souvent ces formules valides des {\bf tautologies}, ces formules pourront être notées $\top$. \\
   \item {\bf contingentes}, impliquant que l'on peut tirer de la formule du faux, tout comme du vrai, une {\bf tautologie} ne peut pas être formule contingente,
   un exemple de formule contingente serait $A \lor B$.
   \end{itemize}
@@ -450,7 +439,7 @@ Chaque branche de l'arbre fini bien par $\bot$, nous venons donc de prouver la l
 
     Ce principe est encore plus flagrant quand nous utilisons la notation suivante : $A, A \imply B \models A$, où $A, A \imply B$ n'est autre que l'ensemble S, avec une notation légèrement différente. \\
 
-    Je n'ai pas choisi cet ensemble de manière anodine, car, grâce à celui-ci, nous allons pouvoir utiliser une {\bf règle d'inférence} connue sous le nom du MP (Modus Ponens), le lecteur ne devrait toutefois pas s'inquiéter, un tableau recensant d'autres règles d'inférence sera présenté à la page suivante. \\
+    Nous n'avons pas choisi cet ensemble de manière anodine, car, grâce à celui-ci, nous allons pouvoir utiliser une {\bf règle d'inférence} connue sous le nom du MP (Modus Ponens), le lecteur ne devrait toutefois pas s'inquiéter, un tableau recensant d'autres règles d'inférence sera présenté à la page suivante. \\
 
   Une première manière de noter cette règle d'inférence serait de faire usage de la notation que nous avons vue plus haut. \\[0.5cm]
     1. A (De cet ensemble, nous savons A) \\
@@ -479,21 +468,23 @@ Chaque branche de l'arbre fini bien par $\bot$, nous venons donc de prouver la l
 \end{adjustwidth}
 \FloatBarrier
 Le lecteur pourra s'exercer à démontrer la validité des tautologies présentées dans le tableau-ci. \\
-\subsubsection{Le besoin d'algorithme, présentation de l'algorithme de Quine.}
+\begin{comment}
+\subsubsection{Présentation de l'algorithme de Quine.}
 
 Un ensemble de formules, tout comme une formule peut-être inconsistante, cela signifie que notre ensemble est équivalent à F,et comme nous l'avons vu dans le tableau ci-dessus, on peut déduire absolument n'importe quoi d'un ensemble inconsistant.\\
 
 Le problème des tableaux de vérités, c'est qu'ils prennent de la place, et même, beaucoup de place. C'est pour cela qu'est venue la nécessité de créer des algorithmes de résolution d'ensembles de formules, afin de faciliter le travail des logiciens, et ainsi, de réduire le temps de calcul nécessaire à un ordinateur. \\
 
-L'algorithme de Quine se déroule en plusieurs étapes, tout d'abord, nous allons simplifier, si possible, les formules logiques contenues dans notre ensemble de formules, par exemple, au lieu d'écrire $A \lor V$, nous pourrons écrire simplement $ V $, et ainsi, supprimer ce $V$ de notre ensemble, comme $B, V \models B$, il y a bien d'autres simplifications possibles, nous laisserons au lecteur le soin d'en trouver.\\
+L'algorithme de Quine se déroule en deux étapes, tout d'abord, nous allons simplifier, si possible, les formules logiques contenues dans notre ensemble de formules, par exemple, au lieu d'écrire $A \lor V$, nous pourrons écrire simplement $ V $, et ainsi, supprimer ce $V$ de notre ensemble, comme $B, V \models B$, il y a bien d'autres simplifications possibles, nous laisserons au lecteur le soin d'en trouver.\\
 
 Une fois cette première étape passée, il suffit d'utiliser un arbre logique (ou éventuellement une table de vérité) et enfin, nous avons pu prouver des formules logiques avec l'aide de l'algorithme de Quine.
+\end{comment}
 \subsection{Une logique? Des logiques!}
 Les logiciens, non contents de la seule logique propositionnelle, ont créé un très grand nombre de logiques, j'en liste quelques unes ci-dessous.
 \begin{itemize}
-  \item La logique linéaire, créée par un français, est basée sur la gestion de ressources, c'est une des nombreuses logiques n'excluant pas le tiers exclus, en effet, en logique linéaire, $A \lor \neg A \nvDash V$, cela est simplement du au fait que nous ``utilisons'' la ressource A une fois, elle n'existe donc plus réellement, et donc $\neg A$ n'existe pas comme A est devenu indéterminé.
+  \item La logique linéaire, créée par un français, est basée sur la gestion de ressources, c'est une des nombreuses logiques n'excluant pas le tiers exclu, en effet, en logique linéaire, $A \lor \neg A \nvDash V$, cela est simplement du au fait que nous ``utilisons'' la ressource A une fois, elle n'existe donc plus réellement, et donc $\neg A$ n'existe pas comme A est devenu indéterminé.
   \item La logique floue, dans laquelle une proposition est vraie selon un certain degré de probabilité.
-  \item La logique de premier ordre, ou logique des prédicats, cette logique sera abordée dans le chapître sur Prolog.
+  \item La logique de premier ordre, ou logique des prédicats, cette logique sera abordée dans le chapitre sur Prolog.
   \item La logique booléenne, elle est basée sur les portes logiques, les circuits logiques, et les ensembles.
   \item La logique combinatoire, logique inventée pour formaliser la notion de fonction, et pour limiter le nombre d'opérateurs nécessaires pour définir le calcul des prédicats.
   \item La logique modale, ayant recours à des opérateurs comme ``il est nécessaire que'' ou ``il est possible que''.
@@ -517,7 +508,7 @@ A ces deux quantificateurs viennent s'ajouter:
 
 \subsubsection{Exemples.}
 Pour se faire une bonne idée, voici quelques phrases françaises ``traduites'' en logique des prédicats. \\[0.5cm]
-1. Tout les mathématiciens sont cools. \\
+1. Tous les mathématiciens sont cools. \\
 =$>$ $\forall$x ({\bf Mathématicien}(x) $\imply$ {\bf Cool}(x)). \\[0.2cm]
 2. Alan Turing et Alonzo Church sont des mathématiciens. \\
 =$>$ {\bf Mathématicien}(Turing\_1) $\land$ {\bf Mathématicien}(Church\_1). \\[0.2cm]
@@ -531,7 +522,7 @@ Prolog a été inventé en 1972 par les informaticiens français Alain Colmeraue
 
 C'est un langage de programmation {\bf logique} et son nom est un acronyme pour PROgrammation LOGique. \\
 
-Prolog a été très utilisé en Europe et au Japon dans le domaine de l'Intelligence Artificielle, tout en étant basé sur la logique propositionnelle dont nous avons posé les bases juste au dessus. \\
+Prolog a été très utilisé en Europe et au Japon dans le domaine de l'Intelligence Artificielle, tout en étant basé sur la logique propositionnelle dont nous avons posé les bases juste au-dessus. \\
 
 Il existe de nombreuses distributions de PROLOG\footnote{https://en.wikipedia.org/wiki/Comparison\_of\_Prolog\_implementations}, nous utiliserons ici SWI-PROLOG, avant tout pour son côté open source et gratuit.
 \subsubsection{Introduction à la syntaxe de Prolog}
@@ -571,7 +562,7 @@ Ouvrons maintenant l'interprète et regardons la magie opérer :
 ?- ajouter(3, 4, Res).
 Res = 7.
 \end{lstlisting}
-Mais, si pour une obscure raison, je décidais de vouloir avoir B, juste en entrant A et C, comment faire? Regardons d'abord comment notre première version réagirait à cela:
+Mais, si pour une obscure raison, nous décidions d'obtenir la valeur de B, juste en entrant A et C, comment devrions-nous procéder? Regardons d'abord comment notre première version réagirait à cela:
 \begin{lstlisting}[language=Prolog]
 ?- ajouter(3, B, 7).
 ERROR: Arguments are not sufficiently instantiated
@@ -598,7 +589,7 @@ B = 4.
 \end{lstlisting}
 De la vraie magie!
 \subsubsection{Mon arbre familial, avec Prolog!}
-Pour montrer la puissance de Prolog, ce chapître présente un petit exemple d'arbre familial (un exercice très classique pour apprendre Prolog), ici, l'arbre représenté est celui de notre famille royale belge\footnote{https://fr.wikipedia.org/wiki/Arbre\_g\%C3\%A9n\%C3\%A9alogique\_de\_la\_famille\_royale\_belge}
+Pour montrer la puissance de Prolog, ce chapitre présente un petit exemple d'arbre familial (un exercice très classique pour apprendre Prolog), ici, l'arbre représenté est celui de notre famille royale belge\footnote{https://fr.wikipedia.org/wiki/Arbre\_g\%C3\%A9n\%C3\%A9alogique\_de\_la\_famille\_royale\_belge}
 Le programme se sépare en deux étapes.
 1. L'écriture de faits simples.
 2. L'écriture des prédicats, afin de faire de l'inférence sur les liens familiaux.
@@ -624,7 +615,7 @@ Les prédicats ``tante'' et ``oncle'' ne sont pas non plus biens compliqués à 
 Le prédicat cousin fut un peu plus fastidieux à écrire. Afin d'y parvenir, nous avons séparé ce prédicat en trois parties, dont deux ``prédicats d'aide''. Tout d'abord, nous vérifions si les deux enfants sont cousins du côté maternel via le prédicat ``cousin\_m'', nous faisons de même, du côté paternel cette fois-ci, avec l'aide du prédicat ``cousin\_p'', par après, nous utilisons le prédicat cousin, qui nous signale si les deux enfants sont cousins du côté paternel, ou du côté maternel.
 \lstinputlisting[language=Prolog, linerange={108-116}]{PrologExamples/genealogia.prolog}
 Ce prédicat est un prédicat récursif, comme nous le constatons, ``descendant'' est appelé à l'intérieur de sa propre définition. \\ Comment cela marche? \\
-Nous verrons la réponse à cette question lors du prochain chapître sur l'approche algorithmique. \\
+Nous verrons la réponse à cette question lors du prochain chapitre sur l'approche algorithmique. \\
 
 Ainsi, si nous appliquions la méthode du canard plastique\footnote{https://fr.wikipedia.org/wiki/M\%C3\%A9thode\_du\_canard\_en\_plastique}, voici comment nous devrions lire ce prédicat: \\
 \begin{enumerate}
@@ -739,19 +730,19 @@ Le {\bf tri par fusion} marche de manière assez différente:
 \end{itemize}
 La fonction merge étant prédéfinie en common Lisp, nous implémenterons notre tri par fusion ainsi.
 \lstinputlisting[language=Lisp]{Sorts/merge_sort.lisp}
-Passons maintenant aux {\bf tests de performances}. \\
+Passons maintenant aux {\bf tests de performance}. \\
 
 Afin de mesurer le temps pris par chacun de mes deux algorithmes, j'ai utilisé ``time'', une macro bien pratique pour ce genre de tests. J'utilise le compilateur SBCL pour faire mes tests. En plus de cela, dans un souci de facilité, j'utilise la macro random-sample, créée par mes soins, me permettant de créer une liste contenant des nombres aléatoires, de taille fixée. \\
 
 \begin{lstlisting}[language=Lisp]
-;;; Ma macro random-sample bien pratique.
+;;; Notre macro random-sample bien pratique.
 (defmacro random-sample (x)
    `(loop for _ below ,x collect (random 1000)))
 \end{lstlisting}
 Sans plus attendre, voici le tableau montrant les résultats de notre petite expérience.
 \begin{table}[H]
   \begin{tabular}{|c|c|c|}
-    \hline {\bf Nombre d'éléments à triers.} & {\bf Temps Tri à Bulles.} & {\bf Temps Tri par fusion.} \\
+    \hline {\bf Nombre d'éléments à trier.} & {\bf Temps Tri à Bulles.} & {\bf Temps Tri par fusion.} \\
     \hline 10 & 0.0000008 secondes & 0.000016 secondes \\
     100 & 0.000089 secondes & 0.000140 secondes \\
     1000 & 0.007863 secondes & 0.001188 secondes \\
@@ -760,7 +751,7 @@ Sans plus attendre, voici le tableau montrant les résultats de notre petite exp
     \hline
   \end{tabular}
 \end{table} \smallskip
-Pour des raisons pratiques, je n'ai pas pu obtenir les résultats du Tri à Bulles pour le million d'éléments. \\
+Pour des raisons pratiques, nous n'avons pas pu obtenir les résultats du Tri à Bulles pour le million d'éléments. \\
 
 Comme nous pouvons le constater sur le tableau précédent, la complexité d'un algorithme (estimé par le Big-O) ne mesure pas le temps exact que l'algorithme prendra afin de trier une certaine liste, il s'agit simplement d'un indicateur, montrant comment évoluera le nombre de comparaisons au cours du temps, cet indicateur devenant extrêmement significatif quand n devient très grand. \\[0.5cm]
 \subsection{Présentation de structures de données de base}
@@ -770,7 +761,7 @@ Tout d'abord, qu'est-ce qu'une structure de données?
 D'après Wikipedia\footnote{https://fr.wikipedia.org/wiki/Structure\_de\_donn\%C3\%A9es}, une structure de données est une manière d'organiser les données, pour les traiter plus facilement. \\
 On conclut donc que le choix judicieux d'une structure de données est indispensable à l'optimisation de la performance de notre IA.
 
-Je présente ici trois structures de données de base.
+Nous présentons ici trois structures de données de base.
 \begin{enumerate}
   \item Les listes simplement chaînées.
   \item Les tableaux (ou arrays en anglais.)
@@ -821,6 +812,9 @@ Il existe également la fonction ``nth'', permettant de récupérer le n-ième �
 CL-USER> (nth 2 *my-linked-list*)
 3
 \end{lstlisting}
+Il faut toutefois prendre en compte le fait que les listes simplements chaînées ne sont pas des structures de données très utilisées dans tout les langages de programmation. Par exemple, en Python, il faut importer la libraire llist afin de pouvoir les utiliser. \\
+
+Les listes simplement chaînées connaissent surtout leur heure de gloire dans les langage de programmation plus fonctionnels tel que Haskell, Erlang, Prolog ou encore OCaml.
 
 \subsubsection{Les tableaux.}
 Le tableau est une structure extrêmement importante en programmation,
@@ -839,7 +833,7 @@ Pour récupérer le n-ième élément d'un tableau, il nous suffit de faire:
   3
 \end{lstlisting}
 \subsubsection{Tableaux vs Listes simplement chaînées.}
-Pour en conclure avec ces deux structures de données, je me propose de faire un petit tableau comparatif final, afin que le lecteur puisse mieux comprendre les différences entre Tableau, et Liste simplement chaînée, (que je noterai SLL pour Single-linked list).
+Pour en conclure avec ces deux structures de données, nous nous proposons de faire un petit tableau comparatif final, afin que le lecteur puisse mieux comprendre les différences entre Tableau, et Liste simplement chaînée, (que nous noterons SLL pour Single-linked list).
 \begin{table}[H]
   \centering
   \begin{tabular}{|c|c|c|}
@@ -850,7 +844,7 @@ Pour en conclure avec ces deux structures de données, je me propose de faire un
     \hline
   \end{tabular}
 \end{table} \smallskip
-Comme on le constate sur ce tableau, les arrays ont un réel avantage lorsque nous désirons uniquement lire un élément de notre structure de données, toutefois, si nous désirons modifier la structure de données en elle-même, alors, tout devient plus problématique, et cela, car notre tableau devra retrouver un autre emplacement libre pour s'y mettre en mémoire. \\
+Comme on le constate sur ce tableau, les arrays ont un réel avantage lorsque nous désirons uniquement lire un élément de notre structure de données, toutefois, si nous désirons modifier la structure de données en elle même, alors, tout devient plus problématique, et cela, car notre tableau devra retrouver un autre emplacement libre pour s'y mettre en mémoire. \\
 
 La liste chaînée quant à elle, n'a pas besoin de se repositionner entièrement lorsqu'on lui ajoute ou qu'on lui retire un élément, il lui suffit plutôt de rajouter un pointeur vers le nouvel élément, ce qui se fait en temps constant (O(1)), peu importe la taille de la liste. Toutefois, la liste chaînée a pour inconvénient d'être en croissance linéaire lors de la recherche d'un élément dans la liste, en effet, lors de la recherche d'un élément dans une liste chaînée, le programme devra d'abord passer par tous les éléments se trouvant avant celui que l'on cherche. \\
 
@@ -861,7 +855,7 @@ Pour ceux qui avaient oublié l'implémentation sur les tableaux, la voici:
 Le lecteur attentif remarquera l'utilisation dans ce code de ``make-array'' et de ``aref'', tout deux synonymes de l'utilisation d'un tableau. Maintenant, transformons cette implémentation en une implémentation utilisant des listes simplement chaînées. \\
 Et maintenant, voici le même algorithme, mais, sur les listes simplement chaînées cette fois-ci.
 \lstinputlisting[language=Lisp]{Sorts/bad_bubble_sort.lisp}
-Et maintenant, comparons leurs temps respectifs sur des listes de tailles différentes avec l'aide d'un nouveau tableau, (mon mode opératoire reste le même, j'utilise SBCL, et la macro time, pour créer une liste contenant des nombres aléatoires, j'utilise toujours ma macro random-sample.)
+Et maintenant, comparons leurs temps respectifs sur des listes de tailles différentes avec l'aide d'un nouveau tableau, (notre mode opératoire reste le même, nous utilisons SBCL, et la macro time, pour créer une liste contenant des nombres aléatoires, nous utilisons toujours notre macro random-sample.)
 \begin{table}[H]
   \centering
   \begin{tabular}{|c|c|c|}
@@ -880,7 +874,7 @@ Une table de hachage (ou un dictionnaire en python) est une structure de donnée
 
 Son utilisation est simple; avec une table de hachage, nous relions des clés avec des valeurs. \\
 
-Ainsi, si dans une table de hachage, je relie le mot ``bonjour'' avec le mot ``hello'', mon mot ``bonjour'' sera considéré comme étant la clé, et le mot ``hello'' comme étant la valeur. \\
+Ainsi, si dans une table de hachage, nous relions le mot ``bonjour'' avec le mot ``hello'', notre mot ``bonjour'' sera considéré comme étant la clé, et le mot ``hello'' comme étant la valeur. \\
 
 En Lisp, pour créer une telle table de hachage, il faut faire: \\
 \begin{lstlisting}[language=Lisp]
@@ -950,7 +944,7 @@ Pour les lecteurs intéressés, nous conseillons fortement de vous renseigner su
 
 Ainsi, pour en revenir à notre programme, nous appliquons une opération de complexité O(1) sur chaque élément de notre liste, soit, n fois. On peut donc en déduire que notre fonction ``convert-to-morse'' est donc de complexité O(n), car nous appliquons n fois une opération de complexité O(1). \\[0.2cm]
 \subsubsection{Promenons-nous dans les bois.}
-Pour comprendre l'intérêt des arbres dichotomiques en programmation, intéressons nous à un petit problème assez simple. \\
+Pour comprendre l'intérêt des arbres dichotomiques en programmation, intéressons-nous à un petit problème assez simple. \\
 
 Imaginez que je pense à un nombre, compris entre 1 et 1000, et que vous deviez deviner ce nombre avec le moins d'essais possible, à la même manière que dans le jeu du ``Juste Prix'', je vous dirai si votre essai est trop grand, ou trop petit. \\
 
@@ -1014,13 +1008,13 @@ L'avantage du tas est avant tout que la complexité de la fonction pour récupé
 
 Un tas s'avère donc extrêmement pratique lorsque nous désirons garder des valeurs ordonnées, sans avoir à retrier la structure de donnée à chaque nouvel ajout de données. \\
 
-Nous verrons comment utiliser les tas en Lisp dans la partie sur l'implémentation de l'algoithme A*.
+Nous verrons comment utiliser les tas en Lisp dans la partie sur l'implémentation de l'algorithme A*.
 \subsection{Qu'est-ce que Lisp?}
 Lisp est une famille de langages de programmation fonctionnels, inventés en 1958 par John McCarthy (l'homme ayant inventé le terme ``intelligence artificielle''). \\
 
 Ceux-ci sont reconnaissables facilement grâce au très grand nombre de parenthèses présentes dans chacun des dialectes de Lisp. \\
 
-Aujourd'hui, le dialecte Lisp le plus utilisé reste {\bf Clojure}, toutefois, il en reste d'autres gardant toujours leur cote de popularité, pour n'en citer que quelques-un, nous avons
+Aujourd'hui, le dialecte Lisp le plus utilisé reste {\bf Clojure}, toutefois, il en reste d'autres gardant toujours leur cote de popularité, pour n'en citer que quelques-uns, nous avons
 \begin{itemize}
   \item {\bf Scheme}, qui est un dialecte très minimaliste de Lisp, très utilisé au niveau académique.
   \item {\bf Emacs Lisp}, un dialecte très pratique pour tous ceux désirant configurer l'éditeur de texte Emacs.
@@ -1035,7 +1029,7 @@ CL-USER> (+ 3 5)
 \end{lstlisting}
 Cela peut sembler bien étrange pour le non-initié, et pourtant, tout cela est parfaitement logique. \\
 
-En fait, lorsque l'on désire appeler une fonction (comme par exemple ici ``+''), la syntaxe sera toujours ``({\bf fonction} {\bf arguments})''. Prenons quelques autres exemples avec quelques opérations arithmétiques. \\
+En fait, lorsque l'on désire appeler une fonction (par exemple ici ``+''), la syntaxe sera toujours ``({\bf fonction} {\bf arguments})''. Prenons quelques autres exemples avec quelques opérations arithmétiques. \\
 \begin{lstlisting}[language=Lisp]
 CL-USER> (- 2 1)
 1
@@ -1050,18 +1044,18 @@ Comme on peut le voir, la logique reste la même pour tous les opérateurs, auss
 
 Également, l'opération de division ne remet pas directement un nombre à virgule, mais plutôt un Ratio, si l'on ne lui donne pour argument uniquement des nombres entiers. \\
 
-Pour déclarer une variable en Lisp, plusieurs choix s'offrent à nous, je présenterai uniquement ici ``defparameter''.
+Pour déclarer une variable en Lisp, plusieurs choix s'offrent à nous, nous présenterons uniquement ici ``defparameter''.
 \begin{lstlisting}[language=Lisp]
 CL-USER> (defparameter *test* 'bonjour)
 *TEST*
 CL-USER> *test*
 BONJOUR
 \end{lstlisting}
-J'en profite pour attirer l'attention sur l'utilisation de ``*'' autour du nom de la variable. Ceux-ci sont appelés les ``cache-oreilles'', il ne s'agit ici que d'une convention, il est tout à fait acceptable de ne pas utiliser de caches-oreilles lors de la définition d'une variable globale. \\
+J'en profite pour attirer l'attention sur l'utilisation de ``*'' autour du nom de la variable. Ceux-ci sont appelés les ``cache-oreilles'', il ne s'agit ici que d'une convention, il est tout à fait acceptable de ne pas utiliser de cache-oreilles lors de la définition d'une variable globale. \\
 
 Maintenant, j'utiliserai la fin de cette petite introduction comme prétexte pour présenter ``la récursion''. \\
 
-Pour montrer un exemple de fonction récursive, je présenterai ici la fonction factorielle, fonction récursive par excellence. \\
+Pour montrer un exemple de fonction récursive, nous présenterons ici la fonction factorielle, fonction récursive par excellence. \\
 
 Tout d'abord, pour déclarer une fonction, nous utiliserons le mot-clé {\bf defun}.
 \begin{lstlisting}[language=Lisp]
@@ -1085,7 +1079,7 @@ CL-USER> (defun factorial (x)
                       (* x (factorial (- x 1)))))
 FACTORIAL
 \end{lstlisting}
-On constate directement la simplicité et l'élégance avec laquelle cette fonction peut être ainsi programmée. D'autres fonctions peuvent-être codée de manière récursive, l'exemple de l'algorithme de tri par fusion, ou encore l'agorithme d'Euclide pour calculer le pgcd sont deux exemples de fonctions récursives dont j'ai pu montrer l'implémentation ci-dessus. \\
+On constate directement la simplicité et l'élégance avec laquelle cette fonction peut être ainsi programmée. D'autres fonctions peuvent-être codée de manière récursive, l'exemple de l'algorithme de tri par fusion, ou encore l'algorithme d'Euclide pour calculer le pgcd sont deux exemples de fonctions récursives dont j'ai pu montrer l'implémentation ci-dessus. \\
 
 Un autre exemple d'algorithme utilisant la récursion serait l'algorithme ``quick-sort'' dit du ``tri-rapide'', en voici son implémentation \\
 
@@ -1097,10 +1091,10 @@ La métaprogrammation, c'est l'art de faire des programmes qui manipulent le cod
 
 Passons directement aux exemples:\\
 
-En Common Lisp, il est possible de créer des variables locales avec l'aide du mot-clé {\bf let}. Par exemple, si je désire créer de manière non récursive la fonction: \\
+En Common Lisp, il est possible de créer des variables locales avec l'aide du mot-clé {\bf let}. Par exemple, si nous désirions créer de manière non récursive la fonction: \\
 
 $$f(n) = \sum_{i=0}^{n}i$$
-Je devrai faire: \\
+Nous devrions faire: \\
 \lstinputlisting[language=Lisp, linerange={1-5}]{LispBasics/sum.lisp}
 Toutefois, certains ne trouvent pas très esthétique le fait de devoir empiler des parenthèses à chaque fois qu'un très petit {\bf let} est appelé. \\
 
@@ -1153,27 +1147,27 @@ Le but de l'ordinateur sera donc de toujours se trouver en position de sécurit�
 
 Le twist que nous avons apporté est le fait que le joueur peut décider des tas avec lesquels ils va jouer, et ainsi, mettre directement l'ordinateur en position de défaite, notre IA devra donc se montrer capable de jouer des coups, même en perdant. \\
 \lstinputlisting[language=Lisp, linerange={1-2}]{Nim/nim-game-player.lisp}
-Ici, je ne fais que définir une variable globale *heaps*, celle-ci représentera les tas disponibles au travers de mon programme. \\
+Ici, nous ne faisons que définir une variable globale *heaps*, celle-ci représentera les tas disponibles au travers de notre programme. \\
 \lstinputlisting[language=Lisp, linerange={4-10, 27-32, 61-67}]{Nim/nim-game-player.lisp}
 Ces deux fonctions seront dites des ``fonctions d'aide'', elles auront surtout pour utilité de ne pas avoir à surcharger les fonctions principales. \\
 
-Le lecteur attentif remarquera que je termine le nom de ces fonctions par un ``p'', cela est dû au fait que ces fonctions sont des {\bf prédicats}, elles ne peuvent retourner que ``t'' ou ``nil'' (``vrai'' ou ``faux''), ceci n'étant également qu'une convention, si le lecteur désire écrire des prédicats sans laisser de ``p'' au bout, SBCL ne lui trouvera rien à redire.\\
+Le lecteur attentif remarquera que nous terminons le nom de ces fonctions par un ``p'', cela est dû au fait que ces fonctions sont des {\bf prédicats}, elles ne peuvent retourner que ``t'' ou ``nil'' (``vrai'' ou ``faux''), ceci n'étant également qu'une convention, si le lecteur désire écrire des prédicats sans laisser de ``p'' au bout, SBCL ne lui trouvera rien à redire.\\
 
 Aussi, on peut remarquer dans les deux premières fonctions l'utilisation de ``reduce'', il s'agit d'une fonction destinée aux {\bf catamorphismes}, cela veut dire qu'elles permettent de passer d'une structure de données comme une liste, ou un arbre, vers un scalaire, comme un entier ou encore un flottant. \\
 
 Egalement, j'utilise \# , ce symbole nous permet d'expliciter que nous utilisons une fonction, et pas une variable.\\
 \lstinputlisting[language=Lisp, linerange={12-26, 34-48}]{Nim/nim-game-player.lisp}
-Nous voici enfin au cœur du programme. Avec nos fonctions ``play-winning-move'' et ``play-random-legal-move'' qui sont nos deux fonctions où est contenu notre joueur, les commentaires explicitant déjà leurs actions, je me concentrerai surtout sur l'implémentation. \\
+Nous voici enfin au cœur du programme. Avec nos fonctions ``play-winning-move'' et ``play-random-legal-move'' qui sont nos deux fonctions où est contenu notre joueur, les commentaires explicitant déjà leurs actions, nous nous concentrerons surtout sur l'implémentation. \\
 
 Comme nous le remarquons, j'utilise {\bf let} et {\bf loop}, {\bf let} me permet de déclarer des variables dites ``locales'', cela me permet d'avoir un code propre, où chaque chose reste à sa place. \\
 
-{\bf loop} est une macro, qui permet d'itérer, ou de répéter un nombre certain de fois une même action, je l'utilise ici en raison de la lisibilité de celle-ci, certains préfèrent la macro ``do'', je trouve cette dernière illisible, mais j'encourage le lecteur à se renseigner sur cette dernière si le coeur le lui en dit.\\
+{\bf loop} est une macro, qui permet d'itérer, ou de répéter un nombre certain de fois une même action, nous l'utilisons ici en raison de la lisibilité de celle-ci, certains préfèrent la macro ``do'', nou trouvons cette dernière illisible, mais nous encourageons le lecteur à se renseigner sur cette dernière si le coeur lui en dit.\\
 \lstinputlisting[language=Lisp, linerange={50-60}]{Nim/nim-game-player.lisp}
-Je ne ferai remarquer ici que l'utilisation de la macro {\bf cond}, une autre manière d'écrire des conditions en Lisp.
+Nous ne ferons remarquer ici que l'utilisation de la macro {\bf cond}, une autre manière d'écrire des conditions en Lisp.
 \lstinputlisting[language=Lisp, linerange={69-95}]{Nim/nim-game-player.lisp}
-Cette très longue fonction fait office d'interface utilisateur. Nous avons déjà fait remarqué au lecteur en commentaires l'utilisation de la récursion. \\
+Cette très longue fonction fait office d'interface utilisateur. Nous avons déjà fait remarquer au lecteur en commentaires l'utilisation de la récursion. \\
 
-Egalement, nous signalons {\bf progn}, une fonction bien pratique pour définir des blocs de code.
+Également, nous signalons {\bf progn}, une fonction bien pratique pour définir des blocs de code.
 \lstinputlisting[language=Lisp, linerange={98-108}]{Nim/nim-game-player.lisp}
 Nous finissons enfin notre programme avec cette fonction nim-game-repl, permettant de commencer une partie entre humain et ordinateur.
 \subsection{Le pathfinding.}
@@ -1196,7 +1190,7 @@ Ainsi, imaginons que nous cherchons le chemin optimal entre la ville A et la vil
 
 Cet algorithme se déroule en plusieurs parties, tout d'abord listons l'ensemble des villes joignables directement depuis notre première ville. \\
 
-Dans notre graphe ci-dessus, les villes B et C sont directement accessible via A.\\
+Dans notre graphe ci-dessus, les villes B et C sont directement accessibles via A.\\
 
 Voici les chemins marqués sur le graphe : \\
 \begin{figure}[H]
@@ -1239,19 +1233,19 @@ Il faudra donc visiter en priorité J ! \\
 
 Il faut ainsi répéter les étapes de cet algorithme, jusqu'à obtenir la solution finale: le chemin optimal ! \\
 
-Le lecteur pourra s'essayer à trouver le chemin optimal entre A et G, en appliqant scrupuleusement l'algorithme de Dijkstra, le graph montrant le chemin optimal sera présenté à la page suivante.
+Le lecteur pourra s'essayer à trouver le chemin optimal entre A et G, en appliquant scrupuleusement l'algorithme de Dijkstra, le graph montrant le chemin optimal sera présenté à la page suivante.
 \begin{figure}[!hbt]
   \centering
   \includegraphics[width=8.0cm]{imgs/solved.png}
   \caption{Le chemin optimal!}
 \end{figure}
-Toutefois, on remarque vite un problème avec cet algorithme: toutes les villes ont du être visitées afin de pouvoir résoudre correctement notre problème! \\
+Toutefois, on remarque vite un problème avec cet algorithme: toutes les villes ont dû être visitées afin de pouvoir résoudre correctement notre problème! \\
 
 Cela ne peut pas sembler être bien grave sur un si petit exemple, mais, quand il s'agit d'effectuer cet algorithme sur toutes les villes belges, il devient clair que nous avons une perte en performances.\\
 
 Il va donc falloir ruser, et utiliser une heuristique afin d'avoir de meilleurs temps, et espérer pouvoir appliquer notre algorithme raisonnablement sur l'ensemble des villes belges. \\
 
-Ces methodes d'heuristique seront justement discutées dans le prochain chapître à leur sujet. \\
+Ces méthodes d'heuristique seront justement discutées dans le prochain chapitre à leur sujet. \\
 \subsubsection{Le besoin d'heuristiques.}
 
 Dijkstra a l'avantage d'être un algorithme donnant toujours la solution optimale, ainsi, peu importe le graphe dans lequel nous appliquons notre algorithme de Dijkstra, le chemin trouvé entre deux points de notre graph sera toujours le plus optimal. \\
@@ -1267,7 +1261,7 @@ une mauvaise heuristique pourrait nous faire retirer trop de noeuds d'une soluti
 \subsubsection{Dijkstra avec de l'heuristique: A*!}
 L'algorithme A* est un algorithme de Dijkstra avec une heuristique intéressante. \\
 
-Ainsi, pour chaque noeud de notre graphe, nous allons-y rajouter un ``coût'' heuristique. Celle qui sera choisie ici sera la distance euclidienne entre le noeud du graphe et l'objectif final. \\
+Ainsi, pour chaque noeud de notre graphe, nous allons y rajouter un ``coût'' heuristique. Celle qui sera choisie ici sera la distance euclidienne entre le noeud du graphe et l'objectif final. \\
 Afin d'illustrer nos propos, nous avons ci-dessous implémenté l'algorithme A*.
 \pather{1-2}
 Tout d'abord, les deux librairies que nous utiliserons ici seront ``cl-csv'', similaire à pandas de python, cette librairie permet de traîter les fichiers csv (comma-separated values). \\
@@ -1294,12 +1288,12 @@ Il est intéressant de noter que pour réaliser un algorithme wA*, la seule modi
 \end{lstlisting}
 Passons aux trois prochaines fonctions:
 \pather{71-85}
-Celles-ci n'ont malheureusement pas grand chose de très intéressant,
+Celles-ci n'ont malheureusement pas grand-chose de très intéressant,
 elles ont été crées afin de limiter la taille du programme, et de rendre le code propre, \\
 
 Il est toutefois intéressant de s'intéresser à for-it-over, qui est une macro anaphorique, cela veut dire que celle-ci se permet de garder le résultat des calculs effectués à l'intérieur dans une variable, passant celle-ci au reste du programme. \\
 
-Les macros anaphoriques sont toutefois à doubles-tranchants, bien qu'elles puissent faire gagner un programme en élégance, elles ont le don de faire en sorte que le lecteur s'y perde, et ne comprenne pas d'où proviennent les variables ``it'' se promenant librement dans le programme sans avoir été déclarées explicitement.
+Les macros anaphoriques sont toutefois à doubles tranchants, bien qu'elles puissent faire gagner un programme en élégance, elles ont le don de faire en sorte que le lecteur s'y perde, et ne comprenne pas d'où proviennent les variables ``it'' se promenant librement dans le programme sans avoir été déclarées explicitement.
 \pather{89-130}
 Et enfin, voici l'algorithme A* en lui même! \\
 
@@ -1311,10 +1305,10 @@ Dès les débuts de l'intelligence artificielle, une envie de battre des humains
 
 Un exemple historique de cela est la défaite de Kasparov face à Deep Blue d'IBM.\\
 
-Le but de ce chapître est de présenter comment un ordi peu gagner contre un humain à un jeu de société, et quelles stratégies doivent être appliquées.\\
+Le but de ce chapitre est de présenter comment un ordi peut gagner contre un humain à un jeu de société, et quelles stratégies doivent être appliquées.\\
 
 Nous implémenterons une IA capable de battre un humain à puissance 4.\\
-\subsubsection{L'agorithme Minimax.}
+\subsubsection{L'algorithme Minimax.}
 À la base de cette section se trouve l'algorithme minimax. Pour comprendre celui-ci, nous allons jouer à un jeu!\\
 Prenons comme plateau l'arbre suivant:
 \begin{figure}[H]
@@ -1323,16 +1317,16 @@ Prenons comme plateau l'arbre suivant:
 \end{figure}
 Le but du jeu est simple: \\
 
-À chaque case bleue sur laquelle nous nous trouvons, vous avez le droit de déplacer le joueur où vous le voulez, dès que nous sommes sur une case rouge, c'est à mon tour de déplacer le joueur!\\
+À chaque case bleue sur laquelle nous nous trouvons, vous avez le droit de déplacer le joueur où vous le voulez, dès que nous sommes sur une case rouge, c'est à notre tour de déplacer le joueur!\\
 
 Votre but est d'atterrir sur la case la plus grosse possible, le mien est de vous faire atterrir sur la case détenant la plus petite valeur possible.\\
 
 Comme première stratégie, vous pourriez être alléché par le 9, et vous déplacer directement vers la case rouge permettant d'y accéder. \\
 
-Le défaut de cette stratégie est que si vous désiriez appliquer cette stratégie, alors, je déplacerai simplement le joueur vers le 1, et vous vous retrouveriez avec le pire résultat possible.\\
+Le défaut de cette stratégie est que si vous désiriez appliquer cette stratégie, alors, nous déplacerions simplement le joueur vers le 1, et vous vous retrouveriez avec le pire résultat possible.\\
 Il va donc falloir innover.\\
 
-La stratégie du minimax consiste à dire que je jouerai à chaque fois le coup le plus minimisant, et ainsi, il est possible de remplacer chacun de mes choix par la valeur de la case la plus petite qui me serait accessible depuis la case où nous nous trouvons.\\
+La stratégie du minimax consiste à dire que nous jouerons à chaque fois le coup le plus minimisant, et ainsi, il est possible de remplacer chacun de mes choix par la valeur de la case la plus petite qui me serait accessible depuis la case où nous nous trouvons.\\
 
 Ainsi, nous pourrions représenter notre plateau ainsi:\\
 \begin{figure}[H]
@@ -1341,11 +1335,11 @@ Ainsi, nous pourrions représenter notre plateau ainsi:\\
 \end{figure}
 De cela, il devient très clair que le meilleur score que vous puissiez espérer avoir est 4.\\
 
-Ainsi, c'est par une alternance de cycle où l'on minimise les scores, et de cycles où on les maximise que se déroule le minimax (en effet, si je devais prédire votre coup, je dirais que vous iriez toujours vers là où la case est la plus haute.)\\
+Ainsi, c'est par une alternance de cycle où l'on minimise les scores, et de cycles où on les maximise que se déroule le minimax (en effet, si nous devions prédire votre coup, nous dirions que vous iriez toujours vers là où la case est la plus haute.)\\
 
 Le défaut du minimax est quand le nombre de positions dans la partie devient énorme. C'est le cas du puissance 4, ou encore du jeu d'échecs, il faut donc pouvoir construire des heuristiques ou alors poussez l'optimisation jusqu'au bout.\\
 
-Le reste de ce chapître présente quelques méthodes d'optimisations de l'algorithme minimax.\\
+Le reste de ce chapitre présente quelques méthodes d'optimisations de l'algorithme minimax.\\
 \subsection{Un programme de jeu.}
 Nous voici enfin au cœur du sujet, avec l'implémentation de notre algorithme Minimax en Common Lisp. Le code se sépare en trois parties:
 \begin{enumerate}
@@ -1355,14 +1349,14 @@ Nous voici enfin au cœur du sujet, avec l'implémentation de notre algorithme M
 \end{enumerate}
 sans plus tergiverser, analysons de suite le code.
 \connect{1-7}
-Ici, nous utilisons deux variables globales, toujours en respectant la convention des cache-oreilles. Il est intéressant de noter qu'il est en général conseillé de limiter le nombre de variables globales se promenant dans un code au strict minimum, en effet, celles-ci empêchent une lecture linéaire, et peuvent mener à ce qui est connu sous le nom de ``code spagetthi''. Dans notre code de puissance 4, nous n'en utiliserons au total trois.
+Ici, nous utilisons deux variables globales, toujours en respectant la convention des cache-oreilles. Il est intéressant de noter qu'il est généralement conseillé de limiter le nombre de variables globales qui se promènent dans un code au strict minimum. En effet, celles-ci empêchent une lecture linéaire, et peuvent mener à ce qui est connu sous le nom de ``code spaghetti''. Dans notre code de puissance 4, nous n'en utiliserons au total trois.
 \connect{9-14}
 Avec cette fonction permettant de construire un nouveau tableau, nous entamons notre première partie concernant la logique de jeu. \\
 
 Il est intéressant ici de noter la structure de donnée représentant le tableau de jeu. Un tableau comprenant des listes simplement chaînées. Nous avons choisi une structure de donnée si originale simplement car nous aimions la manière à laquelle celle-ci se laissait représenter en mémoire. \\
 \connect{16-39}
 {\bf count-to} et {\bf playerify} servent juste à alléger la syntaxe à certains endroits.
-Nous faisons remarquer avant tout l'utilisation de {\bf gensym} dans notre macro, {\bf gensym} a pour rôle de créer un symbole au nom unique, ainsi, les variables étant définies dans la macro ne peuvent pas être appelées en dehors de la macro ({\bf gensym} existe également en prolog). {\bf case} est l'équivalent de {\bf switch} en C. \\
+Nous faisons remarquer avant tout, l'utilisation de {\bf gensym} dans notre macro, {\bf gensym} a pour rôle de créer un symbole au nom unique, ainsi, les variables étant définies dans la macro ne peuvent pas être appelées en dehors de la macro ({\bf gensym} existe également en prolog). {\bf case} est l'équivalent de {\bf switch} en C. \\
 
 {\bf show-board} nous permet d'afficher notre structure de donnée à l'écran de manière convenable.
 \connect{41-53}
@@ -1372,25 +1366,25 @@ Voici trois fonctions d'aide, celles-ci ont pour but d'alléger grandement le co
 Notons ici l'utilisation de {\bf \&optional}, permettant d'utiliser des paramètres optionnels. Et {\bf labels} permettant de définir des fonctions à l'intérieur d'autres fonctions.
 
 \connect{70-90}
-Encore deux fonctions d'aides, celles-ci seront très pratiques pour vérifier le nombre de connections entre les jetons sur notre plateau de puissance 4.
+Encore deux fonctions d'aides, celles-ci seront très pratiques pour vérifier le nombre de connexions entre les jetons sur notre plateau de puissance 4.
 
 \connect{92-114}
-Ici, nous définissons enfin des fonctions permettant de vérifier le nombre de connections verticales et horizontales sur notre plateau. Attention au faux-amis! {\bf return} en Common Lisp n'est utile que dans les boucles, pour retourner une valeur à partir d'une fonction, il n'est nécessaire de préciser return que lorsque nous désirons faire sortir une valeur d'une boucle.\\
+Ici, nous définissons enfin des fonctions permettant de vérifier le nombre de connexions verticales et horizontales sur notre plateau. Attention au faux-amis! {\bf return} en Common Lisp n'est utile que dans les boucles, pour retourner une valeur à partir d'une fonction, il n'est nécessaire de préciser return que lorsque nous désirons faire sortir une valeur d'une boucle.\\
 
-Le code pour vérifier les connections horizontales et verticales reste relativement simple. Intéressons-nous maintenant au code permettant de vérifier les connections en diagonale.
+Le code pour vérifier les connexions horizontales et verticales reste relativement simple. Intéressons-nous maintenant au code permettant de vérifier les connexions en diagonale.
 
 \connect{117-174}
 Ici, remarquons la définition de constantes. Les constantes sont à différencier des variables globales telles que *moves* de par le fait qu'elles sont parfaitement immutables, et ainsi, plus facilement optimisables par le compilateur et laissent au code sa lisibilité. \\
 
-L'utilisation d'une macro dans le cas de {\bf max-in-some-diagonal} aurait put être remplacé par une simple fonction d'aide. Nous aimions juste la liberté supplémentaire au niveau de la syntaxe dans la définition des fonctions du dessous que nous offrait la macro.
+L'utilisation d'une macro dans le cas de {\bf max-in-some-diagonal} aurait pu être remplacée par une simple fonction d'aide. Nous aimions juste la liberté supplémentaire au niveau de la syntaxe dans la définition des fonctions du dessous que nous offrait la macro.
 
 \connect{176-188}
-Voici enfin les deux dernières fonctions composant notre partie de la logique de jeu. {\bf connections} est encore une fois une fonction d'aide, il est intéressant de noter ici l'utilisation de {\bf max} comme fonction polyvariadique.
+Voici enfin les deux dernières fonctions composant notre partie de la logique de jeu. {\bf connexions} est encore une fois une fonction d'aide, il est intéressant de noter ici l'utilisation de {\bf max} comme fonction polyvariadique.
 
 \connect{190-205}
 Notre partie Minimax commence enfin avec la fameuse fonction d'évaluation. Celle-ci marche avec la formule suivante:
 $$eval = 1R * 1 + 2R * 550 + 3R * 3500 + 4R * 50000000 - 1Y * 1 - 2Y * 550 -3Y * 3500 - 4Y * 50000000$$
-Celle-ci est bien évidemment perfectible, (lors des scéances de tests, celle-ci apporta à notre algorithme un comportement fort sadique).
+Celle-ci est bien évidemment perfectible (lors des séances de tests, celle-ci apporta à notre algorithme un comportement fort sadique).
 
 \connect{207-257}
 Toutes les fonctions suivantes ne sont que des fonctions d'aide, nous n'allons pas tergiverser énormément dessus. La chose importante à noter toutefois est l'utilisation de {\bf (declaim (inline f))} permettant de définir une fonction comme étant inline (il s'agit simplement d'une technique d'optimisation, les fonctions inlines étant en dehors de la portée de ce projet, nous encourageons le lecteur à se renseigner sur celles-ci de lui-même).
@@ -1404,7 +1398,7 @@ Deux fonctions d'aide, leur intérêt est assez explicite grâce aux doc-strings
 \connect{291-327}
 Voici enfin venir la fin de notre partie minimax. \\
 
-Nous nous intéresserons ici à l'intérêt de {\bf multiple-value-bind}, en effet, en Lisp, il est possible de retourner plusieurs valeurs d'une fonction grâce à l'utilisation de {\bf values}. Il faut tout de même un moyen de récupérer toutes les valeurs sorties de la fonctions, et savoir relier ses valeurs à des variables. C'est ici qu'entre en jeu {\bf multiple-value-bind}, dont l'intérêt est justement de récupérer les valeurs sorties par {\bf values} et les rattacher à des variables locales.
+Nous nous intéresserons ici à l'intérêt de {\bf multiple-value-bind}, en effet, en Lisp, il est possible de retourner plusieurs valeurs d'une fonction grâce à l'utilisation de {\bf values}. Il faut tout de même un moyen de récupérer toutes les valeurs sorties de la fonction, et savoir relier ses valeurs à des variables. C'est ici qu'entre en jeu {\bf multiple-value-bind}, dont l'intérêt est justement de récupérer les valeurs sorties par {\bf values} et les rattacher à des variables locales.
 
 \connect{329-363}
 Voici en fin venir la fin du programme Lisp, avec la partie interface utilisateur, le programme permet de jouer contre un autre joueur, ou encore de jouer contre l'IA. \\
@@ -1431,21 +1425,36 @@ Nous utilisons cette stratégie dans notre puissance 4 avant tout car il est pos
 \newpage
 \section{Le Machine Learning.}
 \subsection{Définition du Machine Learning}
-Le Machine Learning, ou Apprentissage Automatique, est un type d'intelligence artificielle qui analyse et s'entraine avec des données, permettant dès lors aux ordinateurs d'apprendre par expérience (sans avoir été explicitement programmé à cet effet ou par intervention humaine). Cela consiste en algorithmes d’apprentissage qui améliorent leur performance à exécuter des tâches au fil du temps grâce à de l’expérience.\\
 
-Le machine learning est présent dans la vie de tous les jours. Par exemple, nos boîtes mail sont équipées d'algorithmes capables d’apprendre avec le temps. Prenons les spams, leurs émetteurs sont capables de s'adapter, de changer leur manière d’agir, il est donc impératif que l’algorithme de défense contre les spams change lui aussi. Dans les e-mails, le machine learning se cache aussi derrière les réponses automatiques, en 2018, 6,7 milliards des mails envoyés étaient des réponses automatiques. On peut aussi trouver des IA dans les réseaux sociaux (reconnaissance faciale entre amis Facebook,...), blocage automatique des cartes de crédit volées, et bien d'autres.\\[1.0cm]
+Le Machine Learning, ou Apprentissage Automatique, est un type d'intelligence artificielle qui analyse et s'entraîne avec des données, permettant dès lors aux ordinateurs d'apprendre par expérience (sans avoir été explicitement programmé à cet effet ou par intervention humaine). Cela consiste en algorithmes d’apprentissage qui améliorent leur performance à exécuter des tâches au fil du temps grâce à de l’expérience.\\
+
+Le machine learning est présent dans la vie de tous les jours. Par exemple, nos boîtes mail sont équipées d'algorithmes capables d’apprendre avec le temps. Prenons les spams, leurs émetteurs sont capables de s'adapter, de changer leur manière d’agir, il est donc impératif que l’algorithme de défense contre les spams change lui aussi. Dans les e-mails, le machine learning se cache aussi derrière les réponses automatiques, en 2018, 6,7 milliards des mails envoyés étaient des réponses automatiques. On peut aussi trouver des IA dans les réseaux sociaux (reconnaissance faciale entre amis Facebook,...), blocage automatique des cartes de crédit volées, et bien d'autres.\\
+
 \subsection{Les Maths dans le Machine Leanring.}
+
 De nombreux data scientists (chargés de la gestion, de l’analyse et de l’exploitation des données au sein d’une entreprise) considèrent le machine learning comme un apprentissage statistique car celui-ci s’appuie sur des algorithmes (principalement statistique) permettant à une machine d'apprendre grâce à des échantillons ou bases d’apprentissages.\\
 
-Dans le machine learning, il y a en grande partie des maths qui permettent à la machine de fonctionner, on retrouve surtout des algorithmes et des statistiques. D’ailleurs, de nombreux Data scientists considèrent que le machine learning n’est qu’un apprentissage statistique. De plus, ce qu’on appelle machine learning est pour certains la rencontre des statistiques avec la puissance de calcul disponible aujourd’hui (mémoire, processeurs, cartes graphiques).\\
+Ce qu’on appelle machine learning est pour certains la rencontre des statistiques avec la puissance de calcul disponible aujourd’hui (mémoire, processeurs, cartes graphiques).\\
 
-On retrouve aussi les fonctions, les variables, les équations, les graphiques, et d’autres outils mathématiques de ce genre dans le machine learning.  Pour les fonctions, elles sont utiles à l’analyse des séries temporelles (suite de valeurs numériques représentants l’évolution d’une quantité spécifique au cours du temps).\\[1.0cm]
-\subsection{Les résaux de neurones}
+On retrouve aussi dans le machine learning; les fonctions, elles sont utiles à l’analyse des séries temporelles (suite de valeurs numériques représentant l’évolution d’une quantité spécifique au cours du temps), les variables, les équations, les graphiques, et d’autres outils mathématiques de ce genre.\\[1cm]
+
+Il existe beaucoup d'algorithmes différents qui sont utilisés dans le machine learning. Ici, quelques exemples seront donnés, dont un expliqué.\\
+
+"L'arbre de décision", celui-ci sert à classifier une série de données futures grâce à des données déjà connues. Petit exemple, par rapport à l'acceptation d'un crédit bancaire ; 2201 clients au départ dont 1427 cibles (dont le crédit a été accepté) et 774 non-cibles (crédit refusé). La variable séparant le mieux les dossiers est l'âge du client. Ensuite, en observant mieux, il est possible de remarquer que chez les 18 à 42 ans, le taux d'acceptation est plus élevé, notamment concernant les personnes aux revenus supérieurs à 55 k euros. Pour les 43 à 62 ans, le sexe est la variable la plus explicative, les femmes ont un taux d'acceptation plus élevé que les hommes. Enfin, pour les plus de 63 ans, le taux d'acceptation de crédit est très faible et ne dépend plus d'autres variables, car l'âge pour eux est déjà la variable la plus explicative.\\
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=1]{imgs/algo_ml.png}
+\end{figure}
+
+"Les Forêts Aléatoires", le "Gradient Boosting"/"Xg Boost", "les algorithmes génétiques", les "machines à vecteurs de support", les "k plus proches voisins",... sont tous des algorithmes utilisés en Machine Learning.
+
+\subsection{Les réseaux de neurones}
 Une couche de neurones d’entrées, plusieurs couches cachées, une couche de sortie suivie d’une fonction d’activation.
 Chaque neurone possède une valeur obtenue par une fonction de combinaison étant la somme des valeurs des neurones de la couche précédente, chacune multipliée par un poids spécifique
 $ z = x_1 \cdot p_1 + x_2 \cdot p_2 + \cdots + x_n \cdot p_n $ \\
 
-Une fois la (ou les) valeur(s) de la couche de sortie obtenue, on applique à celle-ci une fonction d’activation qui transforme la valeur en fonction d’un seuil. Si en dessous du seuil, inactif (0/-1), aux environs du seuil, phase de transition, et au-dessus du seuil, actif (1/$>$1). Le type de fonction varie d’un cas à l’autre, mais les plus récurrentes sont la fonction sigmoïde $ \frac{1}{1 + e^{-x}} $ la fonction tangente hyperbolique $ \frac{2} {1 + e^{-2x}} -1 $
+Une fois la (ou les) valeur(s) de la couche de sortie obtenue(s), on applique à celle-ci une fonction d’activation qui transforme la valeur en fonction d’un seuil. Si en dessous du seuil, inactif (0/-1), aux environs du seuil, phase de transition, et au-dessus du seuil, actif (1/$>$1). Le type de fonction varie d’un cas à l’autre, mais les plus récurrentes sont la fonction sigmoïde $ \frac{1}{1 + e^{-x}} $ la fonction tangente hyperbolique $ \frac{2} {1 + e^{-2x}} -1 $
 ou encore la fonction ReLU $ \begin{cases} 0 & x < 0 \\ x & x >= 0 \end{cases} $ \\
 
 Durant l’apprentissage, les poids sont des valeurs prises au hasard. Il faut donc les ajuster pour fournir une réponse qui se rapproche au mieux de la réalité. Comme on entraîne notre réseau, on connaît la vraie valeur finale. On va donc appliquer une fonction de coût afin de calculer le gradient d’erreur entre la valeur réelle et la valeur prédite $ \frac{1}{2}(y_r - y_p)^2 $, et ainsi mettre à jour les poids par rétropropagation (! il y a des maths plus compliquées derrière). A chaque nouvelle donnée injectée lors de l’apprentissage, le réseau est plus performant.
@@ -1474,7 +1483,7 @@ Le nom du langage vient de la série Monty Python’s flying Circus dont Guido V
 
 Le langage python a été mis à jour de nombreuses fois et est passé d’une version 1.5 en 1999 jusqu’à 3.9 en 2020, nous nous intéresserons surtout aux versions python 2 et python 3 qui ont été ls plus marquantes.
 \subsubsection{Python 2:}
-Ici, nous allons citer quelques erreurs d’analyse de code possible comme des erreurs de syntaxe, des manques de ‘:’, des manques d’une lettre, et d'autres. Nous pouvons aussi trouver des exceptions qui, quand utilisées dans notre programme, nous permettent de contrer les erreurs pouvant être écrite par la suite comme les ‘ZeroDivisionError’ ou en français, erreur de division par zéro, mais aussi les ‘ValueError’ qui nous annonce une valeur incorrecte et encore bien d’autres.\\
+Ici, nous allons citer quelques erreurs d’analyse de code possible comme des erreurs de syntaxe, des manques de ‘:’, des manques d’une lettre, et d'autres. Nous pouvons aussi trouver des exceptions qui, quand utilisées dans notre programme, nous permettent de contrer les erreurs pouvant être écrites par la suite comme les ‘ZeroDivisionError’ ou en français, erreur de division par zéro, mais aussi les ‘ValueError’ qui nous annonce une valeur incorrecte et encore bien d’autres.\\
 
 	Il existe des moyens de convertir du code de python 2 vers python 3 mais ce n’est pas très fiable et de toute façon, ce n’est plus trop utile non plus car de plus en plus de développeurs conseillent python 3 pour sa facilité d’utilisation, de plus le support de la version 2 a été abandonné en 2020.\\
 
@@ -1508,7 +1517,7 @@ Alors qu'en python 3, le problème suivant fut résolu ainsi:\\
 'éèà'
 \end{lstlisting}
 
-Ci-dessous, nous allons illustrer quelques exemples des différences entre python 2 et python 3 qui au fur-et-à-mesure seront expliqués. \\
+Ci-dessous, nous allons illustrer quelques exemples des différences entre python 2 et python 3 qui au fur et à mesure seront expliqués. \\
 
 \begin{lstlisting}[language=Python]
 >>> print 7/3
@@ -1542,10 +1551,19 @@ maintenant, voici le même code en python 3;
 \subsubsection{Un programme d'exemple avec le second degré!}
 \lstinputlisting[language=Python]{PythonIsh/greg_example.py}
 \newpage
+
+Ci-dessus, pour vous illustrer quelques fonctions utilisées en python 3, une fonction permettant de calculer des équations du second degré a été créée.\\
+
+Tout d'abord, j'insère : "from math import sqrt", sqrt c'est-à-dire la fonction racine, celle-ci a été importée et peut être utilisée dans tout le programme. Ensuite, grâce à l'objet "def", une fonction est créée et en notant seulement les valeurs de a, b, c, une équation du type $ax^2+bx+c$ pourra être résolue. \\
+
+Après cela, j'apporte toutes les données nécessaire et utile à la résolution de l'équation telle que le déterminant de l'équation : $p=b^2-4.a.c$. Ou les valeurs de x en fonction de si le $p$ ci-dessus est positif, égal à zéro ou négatif. Tout ceci est placé dans une condition (le if juste après le $p=$...) qui si le $p$ est positif me donne des valeurs pour $x_1 et x_2$, si le $p$ est égal à zéro me rend une valeur pour $x$ et si le $p$ est négatif me dit tout simplement qu'il n'y a pas de valeurs pour x. \\
+
+Pour finir, un $input$ est ajouté, celui-ci n'est pas obligatoire, surtout dans cette fonction ou le a, b, c'est déjà définis, mais il permet quand même de demander à l'utilisateur du programme d'insérer une valeur de ces trois lettres. Même avec l'utilisation du $input$, un $print(second_degre(a, b, c))$ est ajouté, sans lui, on ne serait pas montré la fonction créée à l'écran. \\
+
 \subsection{le Data Science}
 La Data science (sciences des données) est un domaine scientifique qui regroupe et relie toutes les disciplines relatives à l'utilisation de données. Son but à terme est de récolter et transformer des données brutes (Ex: Âge et classement des participants à une compétition) en informations concrètes et utilisables (Ex: Influence estimée de l'âge d'une personne sur ses résultats à cette compétition). Cette transformation commence par leur tri, pour garder uniquement ce qu'on peut utiliser, ensuite, on structure ces données selon certains modèles qui rendent leur exploitation possible, on commence donc à exploiter ces données à l'aide d'un logiciel ou d'un algorithme, et il ne reste plus qu'à rendre les informations obtenues communicables avec, par exemple, un graphique.\\
 
-Comme mentionné ci-dessus, la data science utilise diffèrents algorithmes. Par exemple, la régression linéaire, qui sert à établir la relation entre une variable explicative, aussi appelée variable à expliquer, et une ou plusieurs variable expliquée (utilisée pour décrire les variables dépendantes). La régression linéaire permet par exemple de calculer des phénomènes économiques mais aussi d'autres genres de phénomènes. Par exemple, si l'on mesure la consommation d'une voiture en fonction de sa vitesse, la consommation est considérée comme la variable expliquée, tandis que la vitesse est considérée comme la variable explicative, à chaque valeur de la vitesse correspond une et une seule valeur de la consommation. Exactement comme dans une fonction où, à chaque valeur de x (qui pourrait ici, être la vitesse) correspond une seule valeur de Y (pouvant ici être la consommation).\\
+Comme mentionné ci-dessus, la data science utilise différents algorithmes. Par exemple, la régression linéaire, qui sert à établir la relation entre une variable explicative (aussi appelée variable à expliquer) et une ou plusieurs variable expliquée (utilisée pour décrire les variables dépendantes). La régression linéaire permet par exemple de calculer des phénomènes économiques mais aussi d'autres genres de phénomènes. Par exemple, si l'on mesure la consommation d'une voiture en fonction de sa vitesse, la consommation est considérée comme la variable expliquée, tandis que la vitesse est considérée comme la variable explicative, à chaque valeur de la vitesse correspond une et une seule valeur de la consommation. Exactement comme dans une fonction où, à chaque valeur de x (qui pourrait ici, être la vitesse) correspond une seule valeur de Y (pouvant ici être la consommation).\\
 
 L'intelligence artificielle est une des disciplines qui demande la plus grande connaissance en data science étant donné que les données en sont le carburant, ce dont toute intelligence a besoin pour se structurer. Cependant, la data science étant un domaine extrêmement large, elle est utile dans bien d'autres domaines que la conception d'IA.
 \subsection{La bibliothèque NumPy}
@@ -1827,5 +1845,5 @@ On notera ici que l’axis 0 = les colonnes et l’axis 1 = les lignes: shape = 
 \newpage
 \section{Remerciements.}
 
-Nous remercions avant tout Sophie Gayes qui tout au long du projet nous a soutenu et a répondu à nos questions, nous remercions aussi Mr. Joachim sans qui rien n'aurait été possible et qui nous a soutenu plus que tout pendant cette période difficile et longue à passer.
+Nous remercions avant tout Sophie Gayes qui tout au long du projet nous a soutenu et a répondu à nos questions, nous remercions aussi sa marraine qui a pris le temps de relire entièrement notre projet et de dire chaque point qui n'était pas complet ou incorrect, nous remercions enfin Mr. Joachim sans qui rien n'aurait été possible et qui nous a soutenu plus que tout pendant cette période difficile et longue à passer.
 \end{document}
