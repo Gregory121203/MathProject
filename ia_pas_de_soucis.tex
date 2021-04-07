@@ -14,8 +14,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage{setspace}
 \usepackage{listingsutf8}
-\usepackage{verbatim}
+\usepackage{wrapfig, floatflt}
+\usepackage[firstpage=true]{background}
 \pagestyle{fancy}
+
 
 \definecolor{codecomments}{HTML}{FFA700}
 \definecolor{codenumbers}{HTML}{D62D20}
@@ -24,9 +26,17 @@
 \definecolor{keycolor}{HTML}{3B5998}%{0057E7}
 \definecolor{backcolour}{HTML}{FFFFFF}
 
+\backgroundsetup{
+  pages=some,
+  firstpage=true,
+  scale=1,
+  angle=0,
+  opacity=1,
+  contents={\includegraphics[width=\paperwidth, height=\paperheight]{imgs/PaGa.png}}
+}
 \hypersetup{
   colorlinks=true,
-  linkcolor=cyan,
+  linkcolor=black,
   filecolor=red,
   urlcolor=blue,
 }
@@ -113,15 +123,19 @@
 
 \newcolumntype{M}[ 1 ]{>{\centering\arraybackslash}m{#1}}
 
-\title{IA Pas de Soucis !}
-\author{Un projet de Evrard Maurice,\\ Lejeune Grégory,\\ Lejeune Lucas \\ et de Mathieu Louca.}
+\title{}
+\date{}
+\pagestyle{empty}
 
 \begin{document}
-\onehalfspacing
 \maketitle
+\thispagestyle{empty}
 \newpage
+\pagestyle{fancy}
+\pagenumbering{roman}
 \tableofcontents
 \newpage
+\pagenumbering{arabic}
 \section{Introduction.}
 Ce projet a été créé dans le cadre du cours de PESU maths, par des élèves de la classe de 6F, et a pour objectif de présenter les différentes méthodes utilisées dans la création d'intelligences artificielles au cours de ces dernières décennies. Il ne s'agit pas ici de présenter brièvement plusieurs langages de programmation, mais bien de montrer au lecteur l'évolution de l'IA au cours du temps en utilisant les différents langages comme les outils aidant à la conception de petits programmes simples.\\
 
@@ -165,14 +179,14 @@ Cette période marque malgré tout l'introduction de la logique dans l'IA, notam
 \subsection{Le retour en force (1980-1987).}
 Cette période voit apparaître un nouveau genre de programmes d'IA appelé ``Systèmes experts'', ces programmes ont pour particularité d'être limités à des domaines très restreints. En effet, ce type de programme utilise un ensemble de règles logiques directement inspirées des connaissances des experts du domaine. Cette limite volontaire imposée à ces programmes les rendent plus facile à concevoir et à améliorer une fois déployés. Ces programmes sont les premiers à réellement se rendre utiles pour la société.\\
 
-Le gouvernement japonais va permettre à l'IA de se relancer économiquement en investissant 850 millions de Dollars dans le but de développer des programmes de communication (Traduction, interprétation d'images, ...). Le Royaume-Uni lance un projet similaire qu'il finance à hauteur de 350 millions de livres.
+Le gouvernement japonais va permettre à l'IA de se relancer économiquement en investissant 850 millions de Dollars dans le but de développer des programmes de communication. Le Royaume-Uni lance un projet similaire qu'il finance à hauteur de 350 millions de livres.
 \subsection{Le nouvel hiver (1987-1993).}
 L'engouement qu'avait réussi à créer l'IA au début des années 80 grâce aux systèmes experts a en fait créé une bulle économique qui a fini par exploser à la fin de la décennie.\\
 Cette période marquera tout de même l'apparition d'une nouvelle approche de l'IA, une approche dans laquelle les intelligences artificielles devraient avoir conscience de``leur corps" et de l'environnement qui les entoure.
 \subsection{Depuis 1993.}
 Grâce à un niveau technologique et donc une puissance de calcul qui augmente de manière exponentielle (c.f. Loi de Moore), de nombreux objectifs de l'IA sont atteints. Les investissements n'affluent toujours pas, car on ne s'est pas encore approché du tout du rêve des années 60, c'est-à-dire une IA aussi intelligente qu'un humain.\\
 
-Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits, on peut noter la victoire historique de l'IA Deep Blue aux échecs contre le champion du monde en titre d'échecs Garry Kasparov. On peut aussi parler des nombreux robots anthropomorphes comme le Asimo de Honda ou les robots militaires de Boston Dynamics dont les capacités ne cessent d'impressionner le grand public. Mais au-delà de ces prouesses, l'intelligence artificielle a aujourd'hui surtout gagné une place proéminente dans notre quotidien: applis de traduction, publicités ciblées, GPS, recommandations d'amis sur les réseaux sociaux, ... .
+Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits, on peut noter la victoire historique de l'IA Deep Blue aux échecs contre le champion du monde en titre d'échecs Garry Kasparov. On peut aussi parler des nombreux robots anthropomorphes comme le Asimo de Honda ou les robots militaires de Boston Dynamics dont les capacités ne cessent d'impressionner le grand public. Mais au-delà de ces prouesses, l'intelligence artificielle a aujourd'hui surtout gagné une place proéminente dans notre quotidien.
 \newpage
 \section{L'Approche Logique.}
 \subsection{Les bases de la logique}
@@ -339,7 +353,6 @@ Depuis 1993, l'IA continue de faire ses preuves au travers de nombreux exploits,
     \end{tabular}
   \end{table}
   Ainsi, comme nous pouvons le constater, la dernière ligne est remplie de ``V'', cela veut donc dire que nous venons de prouver la relation $\neg (A \land B) \ffi \neg A \lor \neg B$ , aussi connue sous le nom de ``la loi de DeMorgan'', nous avons prouvé par la même occasion que $\neg (A \land B) \ffi \neg A \lor B$ est {\bf valide}, cela veut dire qu'elle sera toujours vraie, peu-importe les A, et les B.\\
-
   Il existe toutefois une autre manière de faire, il s'agit d'utiliser un arbre, cette méthode requiert moins d'étapes et nous permettra de résoudre certains problèmes de manière plus simple. Toutefois, il y a quelques règles à respecter lors de l'utilisation d'un arbre, ces  règles sont répertoriées dans le tableau ci-dessous. \\
   \begin{center}
     \begin{table}[H]
@@ -415,15 +428,13 @@ Chaque branche de l'arbre fini bien par $\bot$, nous venons donc de prouver la l
   \begin{itemize}
   \item {\bf consistantes}, signifiant qu'il est possible d'en tirer du Vrai, par exemple $A \land B$ ou encore $\neg \neg A \imply A$.
   \item {\bf inconsistances}, signifiant que l'on ne peut en tirer que du Faux, par exemple $A \land \neg A$, ces formules peuvent être notées $\bot$.
-  \item {\bf valides}, signifiant qu'elles ne peuvent être que Vraies, comme $A \lor \neg A$ (principe du tiers exclu), une formule {\bf valide} est par définition toujours {\bf consistante}, on appelle bien souvent ces formules valides des {\bf tautologies}, ces formules pourront être notées $\top$. \\
+  \item {\bf valides}, signifiant qu'elles ne peuvent être que Vraies, comme $A \lor \neg A$ (principe du tiers exclu), une formule {\bf valide} est par définition toujours {\bf consistante}, on appelle bien souvent ces formules valides des {\bf tautologies}, ces formules pourront être notées $\top$.
   \item {\bf contingentes}, impliquant que l'on peut tirer de la formule du faux, tout comme du vrai, une {\bf tautologie} ne peut pas être formule contingente,
   un exemple de formule contingente serait $A \lor B$.
   \end{itemize}
 
   Les ensembles aussi ont leur propre terminologie, ainsi, si l'on prend l'ensemble noté $S$, il pourra être qualifié également de {\bf consistant}, si il n'y a pas de contradictions au sein de $S$ et qu'il n'y a aucune formule inconsistante contenue dans $S$, autrement $S$ sera défini comme étant {\bf inconsistant}. \\[0.5cm]
-  Il y a plusieurs manières d'{\bf inférer} quelque chose d'un ensemble logique. \\
-
-  Une première manière est de prendre les {\bf prémisses} qui nous intéressent, et d'écrire \\[0.5cm]
+  Il y a plusieurs manières d'{\bf inférer} quelque chose d'un ensemble logique, une première manière est de prendre les {\bf prémisses} qui nous intéressent, et d'écrire \\[0.5cm]
     1. {\bf Premisse\_A} \\
     2. {\bf Premisse\_B} \\
     \hspace{0.2cm}$\vdots$ \\
@@ -431,13 +442,7 @@ Chaque branche de l'arbre fini bien par $\bot$, nous venons donc de prouver la l
     \hspace{0.5cm}\line(1, 0){60} \\
     $\therefore$ {\bf Conclusion} \
 
-    Prenons un ensemble {\bf consistant} $S$ composé des formules $A$ et $A \imply B$. \\
-
-    On pourrait alors noter $S$ comme étant $S = \{ A, A \imply B \}$ (ce qui est parfaitement équivalent à écrire $S = A \land (A \imply B)$), \\
-
-    De ceci, nous allons utiliser l'opérateur de la déduction, $\vDash$, ceci nous permettra ainsi écrire $S \vDash A$, littéralement ``De $S$, nous déduisons $A$''. \\
-
-    Ce principe est encore plus flagrant quand nous utilisons la notation suivante : $A, A \imply B \models A$, où $A, A \imply B$ n'est autre que l'ensemble S, avec une notation légèrement différente. \\
+    Prenons un ensemble {\bf consistant} $S$ composé des formules $A$ et $A \imply B$. On pourrait alors noter $S$ comme étant $S = \{ A, A \imply B \}$ (ce qui est parfaitement équivalent à écrire $S = A \land (A \imply B)$), de ceci, nous allons utiliser l'opérateur de la déduction, $\vDash$, ceci nous permettra ainsi écrire $S \vDash A$, littéralement ``De $S$, nous déduisons $A$''. Ce principe est encore plus flagrant quand nous utilisons la notation suivante : $A, A \imply B \models A$, où $A, A \imply B$ n'est autre que l'ensemble S, avec une notation légèrement différente. \\
 
     Nous n'avons pas choisi cet ensemble de manière anodine, car, grâce à celui-ci, nous allons pouvoir utiliser une {\bf règle d'inférence} connue sous le nom du MP (Modus Ponens), le lecteur ne devrait toutefois pas s'inquiéter, un tableau recensant d'autres règles d'inférence sera présenté à la page suivante. \\
 
@@ -447,7 +452,6 @@ Chaque branche de l'arbre fini bien par $\bot$, nous venons donc de prouver la l
   \hspace{10cm}\line(1, 0){60} \\
   $\therefore$ B \\[0.5cm]
   Une autre manière serait d'utiliser l'opérateur $\vDash$ (celui de la {\bf déduction}), de la manière suivante : $A, A \implies B \vDash B$, nous pourrions même être tentés d'utiliser la {\bf règle d'addition}, disant que si l'on a $S \vDash B$, alors, on peut rajouter la formule B à S. Et ainsi, notre ensemble S de base pourra être réécrit en $S = {A, A \imply B, B}$
-  Et maintenant, comme promis, voici un tableau comprenant toutes les règles d'inférence qui seront bien pratiques pour travailler avec les ensembles logiques.
   \FloatBarrier
   \begin{adjustwidth}{300pt}{0pt}
     \begin{table}[H]
@@ -517,8 +521,15 @@ Pour se faire une bonne idée, voici quelques phrases françaises ``traduites'' 
 
 \subsubsection{Qu'est-ce que PROLOG?}
 Cette petite introduction passée, concentrons-nous maintenant sur le coeur du sujet: PROLOG! \\
+\begin{wrapfigure}[6]{l}{0.2\textwidth}
+  \includegraphics[scale=0.3]{imgs/swi-prolog.png}
+\end{wrapfigure}
 
-Prolog a été inventé en 1972 par les informaticiens français Alain Colmerauer et Philippe Roussel. \\
+Prolog a été inventé en 1972 par les informaticiens français Alain Colmerauer et Philippe Roussel. Son logo est celui ci-contre.\\
+\begin{wrapfigure}[13]{R}{0.3\textwidth}
+  \includegraphics[scale=0.5]{imgs/AlainColmerauer.jpeg}
+  \caption{{\em Alain Colmerauer}}
+\end{wrapfigure}
 
 C'est un langage de programmation {\bf logique} et son nom est un acronyme pour PROgrammation LOGique. \\
 
@@ -589,6 +600,11 @@ B = 4.
 \end{lstlisting}
 De la vraie magie!
 \subsubsection{Mon arbre familial, avec Prolog!}
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.15]{imgs/blason.jpg}
+\end{figure}
+
 Pour montrer la puissance de Prolog, ce chapitre présente un petit exemple d'arbre familial (un exercice très classique pour apprendre Prolog), ici, l'arbre représenté est celui de notre famille royale belge\footnote{https://fr.wikipedia.org/wiki/Arbre\_g\%C3\%A9n\%C3\%A9alogique\_de\_la\_famille\_royale\_belge}
 Le programme se sépare en deux étapes.
 1. L'écriture de faits simples.
@@ -680,7 +696,14 @@ X = nicolas ;
 X = aymeric ;
 false.
 \end{lstlisting}
-Il est intéressant de noter lors des tests la puissance de l'interprète prolog, permettant même de suggérer des noms corrigés en cas de fautes de frappe !
+Il est intéressant de noter lors des tests la puissance de l'interprète prolog, permettant même de suggérer des noms corrigés en cas de fautes de frappe ! \\
+
+ Nous invitons le lecteur souhaitant s'aventurer plus loin dans PROLOG le livre Programming in Prolog de William F. Clocksin, celui-ci apprendra au lecteur plusieurs astuces PROLOG, telles que le cut operator (!), ainsi que la création d'un Parser. En voici la couverture.
+ \begin{figure}[H]
+   \centering
+  \includegraphics[scale=0.7]{imgs/cover-b.jpg}
+\end{figure}
+
 \newpage
 \section{L'approche algorithmique.}
 \subsection{Qu'est-ce qu'un algorithme?}
@@ -695,7 +718,7 @@ Voici comment celui-ci fonctionne: \\[0.2cm]
 \begin{itemize}
   \item Tout d'abord, nous prenons deux nombres a et b.
   \item Si b = 0 alors, nous retournons a comme étant le pgcd.
-  \item Sinon, nous écrivons que {\bf pgcd}(a, b) = {\bf pgcd}(b, a {\bf mod} b)\\[0.2cm]
+  \item Sinon, nous écrivons que {\bf pgcd}(a, b) = {\bf pgcd}(b, a {\bf mod}\footnote{Le modulo, c'est simplement le reste de la division entière.} b)\\[0.2cm]
 \end{itemize}
 Et en voici sa traduction en Common Lisp, le langage de programmation que nous utiliserons dans cette partie du dossier.
 \lstinputlisting[language=Lisp]{LispBasics/gcd.lisp}
@@ -753,7 +776,13 @@ Sans plus attendre, voici le tableau montrant les résultats de notre petite exp
 \end{table} \smallskip
 Pour des raisons pratiques, nous n'avons pas pu obtenir les résultats du Tri à Bulles pour le million d'éléments. \\
 
-Comme nous pouvons le constater sur le tableau précédent, la complexité d'un algorithme (estimé par le Big-O) ne mesure pas le temps exact que l'algorithme prendra afin de trier une certaine liste, il s'agit simplement d'un indicateur, montrant comment évoluera le nombre de comparaisons au cours du temps, cet indicateur devenant extrêmement significatif quand n devient très grand. \\[0.5cm]
+Comme nous pouvons le constater sur le tableau précédent, la complexité d'un algorithme (estimé par le Big-O) ne mesure pas le temps exact que l'algorithme prendra afin de trier une certaine liste, il s'agit simplement d'un indicateur, montrant comment évoluera le nombre de comparaisons au cours du temps, cet indicateur devenant extrêmement significatif quand n devient très grand. \\
+
+Une image valant mille mots, voici un tableau répertoriant les différentes complexités et leurs évolutions en fonction de n.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.3]{imgs/big-o.jpg}
+\end{figure}
 \subsection{Présentation de structures de données de base}
 Pour produire une intelligence artificielle efficace, il nous faut de bons algorithmes, mais il nous faut également les structures de données adéquates. \\
 
@@ -779,7 +808,7 @@ Il est possible de représenter une liste simplement chaînée ainsi: \\
 \begin{figure}[H]
   \centering
   \includegraphics[width=9.0cm]{imgs/linked_list.png}
-  \caption{Liste simplement chaînée.}
+  \caption{{\em Liste simplement chaînée.}}
 \end{figure}
 En Lisp, une liste simplement chaînée peut être crée de la manière suivante. \\
 
@@ -791,7 +820,7 @@ Ainsi, si nous reprenions le dessin que nous avions utilisé ci-dessus,
 \begin{figure}[H]
   \centering
   \includegraphics[width=9.0cm, height=2.5cm]{imgs/my_linked_list.png}
-  \caption{*my-linked-list*}
+  \caption{{\em *my-linked-list*}}
 \end{figure}
 D'ailleurs, pour pouvoir travailler avec des listes chaînées, deux opérateurs bien pratiques s'offrent à nous: ``car'' et ``cdr''. \\[0.2cm]
 \begin{lstlisting}[language=LISP]
@@ -1013,14 +1042,25 @@ Nous verrons comment utiliser les tas en Lisp dans la partie sur l'implémentati
 Lisp est une famille de langages de programmation fonctionnels, inventés en 1958 par John McCarthy (l'homme ayant inventé le terme ``intelligence artificielle''). \\
 
 Ceux-ci sont reconnaissables facilement grâce au très grand nombre de parenthèses présentes dans chacun des dialectes de Lisp. \\
+\begin{wrapfigure}[10]{R}{0.3\textwidth}
+  \includegraphics[scale=0.5]{imgs/Lisplogo_alien_256.png}
+  \caption{{\em Logo officieux de Common Lisp.}}
+\end{wrapfigure}
 
 Aujourd'hui, le dialecte Lisp le plus utilisé reste {\bf Clojure}, toutefois, il en reste d'autres gardant toujours leur cote de popularité, pour n'en citer que quelques-uns, nous avons
+
 \begin{itemize}
   \item {\bf Scheme}, qui est un dialecte très minimaliste de Lisp, très utilisé au niveau académique.
   \item {\bf Emacs Lisp}, un dialecte très pratique pour tous ceux désirant configurer l'éditeur de texte Emacs.
   \item {\bf Racket}, un super-set de Scheme.
   \item {\bf Common Lisp} est le dialecte que nous utiliserons ici, ce dialecte a toujours eu la réputation d'être plus orienté vers les applications pratiques, et n'a jamais reçu de grandes faveurs académiques. Common Lisp a toutefois le mérite d'avoir été standardisé, de bénéficier d'un système orienté-objet connu sous le nom de CLOS.
 \end{itemize}
+Au delà de ses parenthèses, Lisp est réputé pour être un langage élégant, comme le prouve cette mini BD de XKCD\footnote{Pour l'expérience, nous vous invitons à taper {\bf import antigravity} dans votre interprète python}, se moquant du langage PERL (connu avant tout pour son utilisation massive des REGEX, pouvant rendre les programmes écrit en celui-ci presque illisible pour les non-initiés.)
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=4]{imgs/lisp.jpeg}
+\end{figure}
+
 \subsubsection{Les bases de Lisp.}
 Tout d'abord, pour commencer notre aventure avec Lisp, ouvrons donc notre REPL (cela peut-être SBCL, Clisp, ou encore CCL), et additionnons deux nombres. \\
 \begin{lstlisting}[language=Lisp]
@@ -1184,7 +1224,7 @@ Tout d'abord, pour représenter l'espace dans lequel notre algorithme doit cherc
 \begin{figure}[H]
   \centering
   \includegraphics[width=8.0cm]{imgs/numbered_graph.png}
-  \caption{Graphe avec poids.}
+  \caption{{\em Graphe avec poids.}}
 \end{figure}
 Ainsi, imaginons que nous cherchons le chemin optimal entre la ville A et la ville G. Nous allons entreprendre les recherches avec l'aide de l'algorithme de Dijkstra. \\
 
@@ -1204,7 +1244,7 @@ Ainsi, nous pouvons créer une file des priorités, reprenant les villes visité
 \end{itemize}
 Il faut donc visiter en priorité la ville B! \\
 
-À partir de B, nous pouvons visiter les villes D et C, voici les chemins empruntés: \\
+À partir de B, nous pouvons visiter les villes D et C:
 \begin{figure}[H]
   \centering
   \includegraphics[width=8.0cm]{imgs/third_search.png}
@@ -1237,7 +1277,7 @@ Le lecteur pourra s'essayer à trouver le chemin optimal entre A et G, en appliq
 \begin{figure}[!hbt]
   \centering
   \includegraphics[width=8.0cm]{imgs/solved.png}
-  \caption{Le chemin optimal!}
+  \caption{{\em Le chemin optimal!}}
 \end{figure}
 Toutefois, on remarque vite un problème avec cet algorithme: toutes les villes ont dû être visitées afin de pouvoir résoudre correctement notre problème! \\
 
@@ -1339,77 +1379,13 @@ Ainsi, c'est par une alternance de cycle où l'on minimise les scores, et de cyc
 
 Le défaut du minimax est quand le nombre de positions dans la partie devient énorme. C'est le cas du puissance 4, ou encore du jeu d'échecs, il faut donc pouvoir construire des heuristiques ou alors poussez l'optimisation jusqu'au bout.\\
 
-Le reste de ce chapitre présente quelques méthodes d'optimisations de l'algorithme minimax.\\
-\subsection{Un programme de jeu.}
-Nous voici enfin au cœur du sujet, avec l'implémentation de notre algorithme Minimax en Common Lisp. Le code se sépare en trois parties:
-\begin{enumerate}
-  \item La partie Logique de Jeu
-  \item La partie Minimax
-  \item La partie interface utilisateur
-\end{enumerate}
-sans plus tergiverser, analysons de suite le code.
-\connect{1-7}
-Ici, nous utilisons deux variables globales, toujours en respectant la convention des cache-oreilles. Il est intéressant de noter qu'il est généralement conseillé de limiter le nombre de variables globales qui se promènent dans un code au strict minimum. En effet, celles-ci empêchent une lecture linéaire, et peuvent mener à ce qui est connu sous le nom de ``code spaghetti''. Dans notre code de puissance 4, nous n'en utiliserons au total trois.
-\connect{9-14}
-Avec cette fonction permettant de construire un nouveau tableau, nous entamons notre première partie concernant la logique de jeu. \\
-
-Il est intéressant ici de noter la structure de donnée représentant le tableau de jeu. Un tableau comprenant des listes simplement chaînées. Nous avons choisi une structure de donnée si originale simplement car nous aimions la manière à laquelle celle-ci se laissait représenter en mémoire. \\
-\connect{16-39}
-{\bf count-to} et {\bf playerify} servent juste à alléger la syntaxe à certains endroits.
-Nous faisons remarquer avant tout, l'utilisation de {\bf gensym} dans notre macro, {\bf gensym} a pour rôle de créer un symbole au nom unique, ainsi, les variables étant définies dans la macro ne peuvent pas être appelées en dehors de la macro ({\bf gensym} existe également en prolog). {\bf case} est l'équivalent de {\bf switch} en C. \\
-
-{\bf show-board} nous permet d'afficher notre structure de donnée à l'écran de manière convenable.
-\connect{41-53}
-Voici trois fonctions d'aide, celles-ci ont pour but d'alléger grandement le corps des fonctions plus grandes, se situant plus loin dans le code. Nous recommandons grandement la lecture de {\bf The Little Schemer} afin de comprendre pourquoi de telles fonctions sont très importantes.
-
-\connect{55-67}
-Notons ici l'utilisation de {\bf \&optional}, permettant d'utiliser des paramètres optionnels. Et {\bf labels} permettant de définir des fonctions à l'intérieur d'autres fonctions.
-
-\connect{70-90}
-Encore deux fonctions d'aides, celles-ci seront très pratiques pour vérifier le nombre de connexions entre les jetons sur notre plateau de puissance 4.
-
-\connect{92-114}
-Ici, nous définissons enfin des fonctions permettant de vérifier le nombre de connexions verticales et horizontales sur notre plateau. Attention au faux-amis! {\bf return} en Common Lisp n'est utile que dans les boucles, pour retourner une valeur à partir d'une fonction, il n'est nécessaire de préciser return que lorsque nous désirons faire sortir une valeur d'une boucle.\\
-
-Le code pour vérifier les connexions horizontales et verticales reste relativement simple. Intéressons-nous maintenant au code permettant de vérifier les connexions en diagonale.
-
-\connect{117-174}
-Ici, remarquons la définition de constantes. Les constantes sont à différencier des variables globales telles que *moves* de par le fait qu'elles sont parfaitement immutables, et ainsi, plus facilement optimisables par le compilateur et laissent au code sa lisibilité. \\
-
-L'utilisation d'une macro dans le cas de {\bf max-in-some-diagonal} aurait pu être remplacée par une simple fonction d'aide. Nous aimions juste la liberté supplémentaire au niveau de la syntaxe dans la définition des fonctions du dessous que nous offrait la macro.
-
-\connect{176-188}
-Voici enfin les deux dernières fonctions composant notre partie de la logique de jeu. {\bf connexions} est encore une fois une fonction d'aide, il est intéressant de noter ici l'utilisation de {\bf max} comme fonction polyvariadique.
-
-\connect{190-205}
-Notre partie Minimax commence enfin avec la fameuse fonction d'évaluation. Celle-ci marche avec la formule suivante:
-$$eval = 1R * 1 + 2R * 550 + 3R * 3500 + 4R * 50000000 - 1Y * 1 - 2Y * 550 -3Y * 3500 - 4Y * 50000000$$
-Celle-ci est bien évidemment perfectible (lors des séances de tests, celle-ci apporta à notre algorithme un comportement fort sadique).
-
-\connect{207-257}
-Toutes les fonctions suivantes ne sont que des fonctions d'aide, nous n'allons pas tergiverser énormément dessus. La chose importante à noter toutefois est l'utilisation de {\bf (declaim (inline f))} permettant de définir une fonction comme étant inline (il s'agit simplement d'une technique d'optimisation, les fonctions inlines étant en dehors de la portée de ce projet, nous encourageons le lecteur à se renseigner sur celles-ci de lui-même).
-
-\connect{259-275}
-Ces fonctions permettent de créer un tableau de puissance 4, uniquement en fonction d'une suite de coups. {\bf flet} a la même fonction que {\bf labels}.
-
-\connect{277-283}
-Deux fonctions d'aide, leur intérêt est assez explicite grâce aux doc-strings les accompagnants.
-
-\connect{291-327}
-Voici enfin venir la fin de notre partie minimax. \\
-
-Nous nous intéresserons ici à l'intérêt de {\bf multiple-value-bind}, en effet, en Lisp, il est possible de retourner plusieurs valeurs d'une fonction grâce à l'utilisation de {\bf values}. Il faut tout de même un moyen de récupérer toutes les valeurs sorties de la fonction, et savoir relier ses valeurs à des variables. C'est ici qu'entre en jeu {\bf multiple-value-bind}, dont l'intérêt est justement de récupérer les valeurs sorties par {\bf values} et les rattacher à des variables locales.
-
-\connect{329-363}
-Voici en fin venir la fin du programme Lisp, avec la partie interface utilisateur, le programme permet de jouer contre un autre joueur, ou encore de jouer contre l'IA. \\
+Le reste de ce chapitre présente quelques méthodes d'optimisations de l'algorithme minimax, l'implémentation en elle-même, trop grande pour rester dans ce chapître a été déplacée en annexe. \\
 \subsubsection{$\alpha\beta$-élagage.}
 L'alpha-bêta élagage est une technique d'optimisation inventée par nul autre que John McCarthy (l'inventeur du Lisp, en personne!).\\
 
 Nous ne rentrerons pas dans les détails du fonctionnement de l'$\alpha\beta$-élagage. En clair, celui-ci permet de réduire grandement le nombre de recherches à faire dans l'arbre de décision sur lequel nous appliquons notre algorithme minimax.\\
 
-En effet, il n'est pas nécessaire de visiter les positions où l'évaluation n'est pas assez favorable.\\
-
-L'arbre de jeu étant tellement énorme, il est extrêmement pratique de ne pas avoir à tout visiter.
+En effet, il n'est pas nécessaire de visiter les positions où l'évaluation n'est pas assez favorable. L'arbre de jeu étant tellement énorme, il est extrêmement pratique de ne pas avoir à tout visiter, cette technique est donc très importante à l'optimisation d'un bon programme de puissance 4, en ne visitant pas les nœuds superflus, l'ordinateur peut gagner un temps considérable et ainsi aller plus en profondeur dans les coups nécessaires.
 \subsubsection{Du dynamisme bon sang !}
 Le principe de la programmation fondateur dynamique est assez simple: Il est plus facile de mémoriser que de calculer.\\
 
@@ -1449,15 +1425,6 @@ Il existe beaucoup d'algorithmes différents qui sont utilisés dans le machine 
 
 "Les Forêts Aléatoires", le "Gradient Boosting"/"Xg Boost", "les algorithmes génétiques", les "machines à vecteurs de support", les "k plus proches voisins",... sont tous des algorithmes utilisés en Machine Learning.
 
-\subsection{Les réseaux de neurones}
-Une couche de neurones d’entrées, plusieurs couches cachées, une couche de sortie suivie d’une fonction d’activation.
-Chaque neurone possède une valeur obtenue par une fonction de combinaison étant la somme des valeurs des neurones de la couche précédente, chacune multipliée par un poids spécifique
-$ z = x_1 \cdot p_1 + x_2 \cdot p_2 + \cdots + x_n \cdot p_n $ \\
-
-Une fois la (ou les) valeur(s) de la couche de sortie obtenue(s), on applique à celle-ci une fonction d’activation qui transforme la valeur en fonction d’un seuil. Si en dessous du seuil, inactif (0/-1), aux environs du seuil, phase de transition, et au-dessus du seuil, actif (1/$>$1). Le type de fonction varie d’un cas à l’autre, mais les plus récurrentes sont la fonction sigmoïde $ \frac{1}{1 + e^{-x}} $ la fonction tangente hyperbolique $ \frac{2} {1 + e^{-2x}} -1 $
-ou encore la fonction ReLU $ \begin{cases} 0 & x < 0 \\ x & x >= 0 \end{cases} $ \\
-
-Durant l’apprentissage, les poids sont des valeurs prises au hasard. Il faut donc les ajuster pour fournir une réponse qui se rapproche au mieux de la réalité. Comme on entraîne notre réseau, on connaît la vraie valeur finale. On va donc appliquer une fonction de coût afin de calculer le gradient d’erreur entre la valeur réelle et la valeur prédite $ \frac{1}{2}(y_r - y_p)^2 $, et ainsi mettre à jour les poids par rétropropagation (! il y a des maths plus compliquées derrière). A chaque nouvelle donnée injectée lors de l’apprentissage, le réseau est plus performant.
 \subsection{Intro au langage Python}
 Python est un langage de programmation créé par Guido van Rossum dont la première version est parue en 1991 mais est exposée au grand public au Stichting Mathematisch Centrum en 1994 (fondation du centre mathématique), en Hollande. Ce langage est dit open source, c'est-à-dire qu’il est gratuit et libre d’utilisation.\\
 
@@ -1843,7 +1810,119 @@ On notera ici que l’axis 0 = les colonnes et l’axis 1 = les lignes: shape = 
 12
 \end{lstlisting}
 \newpage
+\section{Appendices}
+\subsection{Manuels d'installations des langages et librairies.}
+\subsubsection{Pour PROLOG}
+Rendez vous sur \\
+\url{https://wwu-pi.github.io/tutorials/lectures/lsp/010_install_swi_prolog.html}
+\subsubsection{Pour Common Lisp}
+Sous windows: \url{http://www.iqool.de/lispstick.html} \\
+Sous Linux, si vous désirez installer SBCL, alors:
+\begin{lstlisting}[language=bash]
+  sudo apt install sbcl
+\end{lstlisting}
+si vous désirez installer CLISP, alors:
+\begin{lstlisting}[language=bash]
+  sudo apt install clisp
+\end{lstlisting}
+\subsubsection{Pour Python}
+Sous Linux, Python est déjà préinstallé, vous n'avez donc rien à faire!
+Sous Windows: \url{https://www.python.org/downloads/}
+\subsubsection{Installation de numpy}
+Sous Windows, ouvrez cmd avec Windows+D, suivi de ``cmd'', et entrez
+\begin{lstlisting}{language=Python}
+  pip install numpy
+\end{lstlisting}
+Sous Linux:
+\begin{lstlisting}
+  pip3 install numpy
+\end{lstlisting}
+\subsection{Orienté-Objet et Programmation Fonctionnelle}
+Au cours de ce projet, il a été mention de programmation orientée-objet, et de programmation fonctionnelle. Mais qu'est-ce que cela peut donc bien signifier? \\
+
+L'orienté objet et le fonctionnel sont deux {\bf paradigmes} de programmation. Autrement dit, ce sont deux manières différentes de voir la programmation et aussi de résoudre des problèmes (ou parfois de s'en créer), bien entendu ces deux-ci ne sont pas les seuls paradigmes existant, nous pouvons citer entre autres la programmation logique (comme PROLOG), la programmation impérative (comme le C), la programmation concurrente (portée par des langages comme Erlang)... \\
+
+Tout d'abord, la programmation orientée objet (ou la POO pour faire court) repose sur le concept... d'objet. Mais que sont les objets (question rhétorique)? Des instances de classe. \\
+
+Une classe en POO, c'est le moule qui va façonner chacun de nos objets, par exemple, nous pourrions créer une classe voiture, par laquelle nous pourrions créer différentes voitures  bien précises, telle une Ferrari, une Peugeöt... Cette classe sera constituée d'attribut (des variables), et de méthodes (des fonctions). La POO a été créée dans le but de faciliter la vie des programmeurs, comme il est assez simple de ``penser objet''. Pour les lecteurs souhaitant se familiariser avec ce paradigme, nous recommandons d'apprendre Java, C++, D ou encore Common Lisp (et oui!). \\
+
+Ensuite, la programmation fonctionnelle est celle basée uniquement sur l'utilisation de fonctions. Ainsi, une fonction a pour particularité de toujours remettre le même résultat à condition que l'on y entre toujours la même valeur. Ces langages se distinguent par leur grande élégance (bien que cela soit subjectif), et également par la sécurité qu'ils offrent, en effet, si une fonction remet toujours la même valeur pour une même entrée, cela signifie un adieu aux comportements indéfinis gangrénant l'approche orientée objet. Pour les lecteurs souhaitant se familiariser avec ce paradigme, nous recommandons d'apprendre Haskell, OCaml, Racket ou encore Rust. \\
+\subsection{Un programme de jeu.}
+Nous voici enfin au cœur du sujet, avec l'implémentation de notre algorithme Minimax en Common Lisp. Le code se sépare en trois parties:
+\begin{enumerate}
+  \item La partie Logique de Jeu
+  \item La partie Minimax
+  \item La partie interface utilisateur
+\end{enumerate}
+sans plus tergiverser, analysons de suite le code.
+\connect{1-7}
+Ici, nous utilisons deux variables globales, toujours en respectant la convention des cache-oreilles. Il est intéressant de noter qu'il est généralement conseillé de limiter le nombre de variables globales qui se promènent dans un code au strict minimum. En effet, celles-ci empêchent une lecture linéaire, et peuvent mener à ce qui est connu sous le nom de ``code spaghetti''. Dans notre code de puissance 4, nous n'en utiliserons au total trois.
+\connect{9-14}
+Avec cette fonction permettant de construire un nouveau tableau, nous entamons notre première partie concernant la logique de jeu. \\
+
+Il est intéressant ici de noter la structure de donnée représentant le tableau de jeu. Un tableau comprenant des listes simplement chaînées. Nous avons choisi une structure de donnée si originale simplement car nous aimions la manière à laquelle celle-ci se laissait représenter en mémoire. \\
+\connect{16-39}
+{\bf count-to} et {\bf playerify} servent juste à alléger la syntaxe à certains endroits.
+Nous faisons remarquer avant tout, l'utilisation de {\bf gensym} dans notre macro, {\bf gensym} a pour rôle de créer un symbole au nom unique, ainsi, les variables étant définies dans la macro ne peuvent pas être appelées en dehors de la macro ({\bf gensym} existe également en prolog). {\bf case} est l'équivalent de {\bf switch} en C. \\
+
+{\bf show-board} nous permet d'afficher notre structure de donnée à l'écran de manière convenable.
+\connect{41-53}
+Voici trois fonctions d'aide, celles-ci ont pour but d'alléger grandement le corps des fonctions plus grandes, se situant plus loin dans le code. Nous recommandons grandement la lecture de {\bf The Little Schemer} afin de comprendre pourquoi de telles fonctions sont très importantes.
+
+\connect{55-67}
+Notons ici l'utilisation de {\bf \&optional}, permettant d'utiliser des paramètres optionnels. Et {\bf labels} permettant de définir des fonctions à l'intérieur d'autres fonctions.
+
+\connect{70-90}
+Encore deux fonctions d'aides, celles-ci seront très pratiques pour vérifier le nombre de connexions entre les jetons sur notre plateau de puissance 4.
+
+\connect{92-114}
+Ici, nous définissons enfin des fonctions permettant de vérifier le nombre de connexions verticales et horizontales sur notre plateau. Attention au faux-amis! {\bf return} en Common Lisp n'est utile que dans les boucles, pour retourner une valeur à partir d'une fonction, il n'est nécessaire de préciser return que lorsque nous désirons faire sortir une valeur d'une boucle.\\
+
+Le code pour vérifier les connexions horizontales et verticales reste relativement simple. Intéressons-nous maintenant au code permettant de vérifier les connexions en diagonale.
+
+\connect{117-174}
+Ici, remarquons la définition de constantes. Les constantes sont à différencier des variables globales telles que *moves* de par le fait qu'elles sont parfaitement immutables, et ainsi, plus facilement optimisables par le compilateur et laissent au code sa lisibilité. \\
+
+L'utilisation d'une macro dans le cas de {\bf max-in-some-diagonal} aurait pu être remplacée par une simple fonction d'aide. Nous aimions juste la liberté supplémentaire au niveau de la syntaxe dans la définition des fonctions du dessous que nous offrait la macro.
+
+\connect{176-188}
+Voici enfin les deux dernières fonctions composant notre partie de la logique de jeu. {\bf connexions} est encore une fois une fonction d'aide, il est intéressant de noter ici l'utilisation de {\bf max} comme fonction polyvariadique.
+
+\connect{190-205}
+Notre partie Minimax commence enfin avec la fameuse fonction d'évaluation. Celle-ci marche avec la formule suivante:
+$$eval = 1R * 1 + 2R * 550 + 3R * 3500 + 4R * 50000000 - 1Y * 1 - 2Y * 550 -3Y * 3500 - 4Y * 50000000$$
+Celle-ci est bien évidemment perfectible (lors des séances de tests, celle-ci apporta à notre algorithme un comportement fort sadique).
+
+\connect{207-257}
+Toutes les fonctions suivantes ne sont que des fonctions d'aide, nous n'allons pas tergiverser énormément dessus. La chose importante à noter toutefois est l'utilisation de {\bf (declaim (inline f))} permettant de définir une fonction comme étant inline (il s'agit simplement d'une technique d'optimisation, les fonctions inlines étant en dehors de la portée de ce projet, nous encourageons le lecteur à se renseigner sur celles-ci de lui-même).
+
+\connect{259-275}
+Ces fonctions permettent de créer un tableau de puissance 4, uniquement en fonction d'une suite de coups. {\bf flet} a la même fonction que {\bf labels}.
+
+\connect{277-283}
+Deux fonctions d'aide, leur intérêt est assez explicite grâce aux doc-strings les accompagnants.
+
+\connect{291-327}
+Voici enfin venir la fin de notre partie minimax. \\
+
+Nous nous intéresserons ici à l'intérêt de {\bf multiple-value-bind}, en effet, en Lisp, il est possible de retourner plusieurs valeurs d'une fonction grâce à l'utilisation de {\bf values}. Il faut tout de même un moyen de récupérer toutes les valeurs sorties de la fonction, et savoir relier ses valeurs à des variables. C'est ici qu'entre en jeu {\bf multiple-value-bind}, dont l'intérêt est justement de récupérer les valeurs sorties par {\bf values} et les rattacher à des variables locales.
+
+\connect{329-363}
+Voici en fin venir la fin du programme Lisp, avec la partie interface utilisateur, le programme permet de jouer contre un autre joueur, ou encore de jouer contre l'IA. \\
+
+\section{Bibliographie.}
+\bibliography{ia_pas_de_soucis.bib}
+\bibliographystyle{ieeetr}
+\nocite{*}
+\begin{itemize}
+\item {\em Algorithme A*}, Wikipedia, consulté en décembre 2020, \url{https://fr.wikipedia.org/wiki/Algorithme_A*}
+\item {\em Algorithme Minimax}, Wikipedia, consulté en Janvier 2021 sur \url{https://fr.wikipedia.org/wiki/Algorithme_minimax}
+\item {\em Algorithms Explained - minimax and alpha-beta pruning}, consultée en Janvier 2021, sur \url{https://youtu.be/l-hh51ncgDI}
+\item {\em Dijkstra's Algorithm - Computerphile}, consultée en Décembre 2020, sur \url{https://youtu.be/GazC3A4OQTE}
+\item {\em A* (A Star) Search Algorithm - Computerphile}, consultée en Décembre 2020, sur \url{https://youtu.be/ySN5Wnu88nE}
+\end{itemize}
+
 \section{Remerciements.}
 
-Nous remercions avant tout Sophie Gayes qui tout au long du projet nous a soutenu et a répondu à nos questions, nous remercions aussi sa marraine qui a pris le temps de relire entièrement notre projet et de dire chaque point qui n'était pas complet ou incorrect, nous remercions enfin Mr. Joachim sans qui rien n'aurait été possible et qui nous a soutenu plus que tout pendant cette période difficile et longue à passer.
+Nous remercions avant tout Sophie Gayes pour son aide considérable à la réalisation de ce projet de maths, qui nous a permis d'éviter au mieux les fautes de français assez nombreuses ayant été commises, et sans qui nous ne pourrions nous targuer d'avoir une si belle page de garde. Nous remercions également sa marraine qui a pris le temps de relire entièrement notre projet et de dire chaque point qui n'était pas complet ou incorrect, nous remercions enfin Mr. Joachim sans qui rien n'aurait été possible et qui nous a soutenu plus que tout pendant cette période difficile et longue à passer.
 \end{document}
